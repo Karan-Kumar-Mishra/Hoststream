@@ -20,10 +20,13 @@
     "@mui/styled-engine-sc": "^6.4.6",
     "@tailwindcss/vite": "^4.0.9",
     "@toolpad/core": "^0.12.0",
+    "axios": "^1.8.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.2.0",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
     "styled-components": "^6.1.15"
   },
   "devDependencies": {

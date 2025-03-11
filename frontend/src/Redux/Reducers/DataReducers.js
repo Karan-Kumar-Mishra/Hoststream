@@ -3,8 +3,11 @@ const initialState = {
      
     },
     UserInfo: {
-      name: "Username",
-      email: "Email",
+      user:{
+        id:"default id",
+        name:"defaut name",
+        email:"default email"
+      },
       services:{
         static_site:[]
       },
@@ -14,9 +17,6 @@ const initialState = {
   
   const dataReducer = (state = initialState, action) => {
     switch (action.type) {
-  
-      
- 
       case "HOST_STATIC_SITE":
       return {...state };
      

@@ -1,4 +1,4 @@
-// src/redux/store.js
+
 import { createStore, applyMiddleware } from "redux";
 import { thunk } from "redux-thunk";
 import rootReducer from "./Reducers"; // You can combine reducers here

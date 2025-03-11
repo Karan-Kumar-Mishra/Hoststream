@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { host_static_website } from "../Redux/Actions/HostStaticSite";
 
 export default function SiteForm() {
-  const [isDragging, setIsDragging] = useState(false); // Track drag-over state
-  const [file, setFile] = useState(null); // Store the selected file
+  const [isDragging, setIsDragging] = useState(false);
+  const [files, setFiles] = useState([]); // Store multiple files
+  const [websiteName, setWebsiteName] = useState("");
+  const [domainName, setDomainName] = useState("");
+  const dispatch = useDispatch();
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      console.log("Selected file:", selectedFile);
+    const selectedFiles = Array.from(e.target.files); // Convert FileList to array
+    if (selectedFiles.length > 0) {
+      setFiles(selectedFiles);
     }
   };
 
@@ -17,20 +20,25 @@ export default function SiteForm() {
     e.preventDefault();
     setIsDragging(false);
 
-    const droppedFile = e.dataTransfer.files;
-    if (droppedFile) {
-      setFile(droppedFile);
-      console.log("Dropped file:", droppedFile);
+    const droppedFiles = Array.from(e.dataTransfer.files); // Convert FileList to array
+    if (droppedFiles.length > 0) {
+      setFiles(droppedFiles);
     }
   };
 
-  // Handle drag over
+  const handleSubmit = () => {
+    if (files.length === 0 || !websiteName || !domainName) {
+      alert("Please fill all fields and upload at least one file.");
+      return;
+    }
+    dispatch(host_static_website({ files, websiteName, domainName }));
+  };
+
   const handleDragOver = (e) => {
     e.preventDefault();
     setIsDragging(true);
   };
 
-  // Handle drag leave
   const handleDragLeave = () => {
     setIsDragging(false);
   };
@@ -55,6 +63,8 @@ export default function SiteForm() {
             <input
               type="text"
               placeholder="Enter your website name"
+              value={websiteName}
+              onChange={(e) => setWebsiteName(e.target.value)}
               className="w-full px-4 py-3 bg-black text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent placeholder-gray-400"
             />
           </div>
@@ -67,10 +77,13 @@ export default function SiteForm() {
             <input
               type="text"
               placeholder="Enter your domain name"
+              value={domainName}
+              onChange={(e) => setDomainName(e.target.value)}
               className="w-full px-4 py-3 bg-black text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent placeholder-gray-400"
             />
           </div>
 
+          {/* File Upload */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Upload Files
@@ -87,14 +100,17 @@ export default function SiteForm() {
                 type="file"
                 className="hidden"
                 id="file-upload"
+                multiple // Allow multiple files
                 onChange={handleFileChange}
               />
               <label
                 htmlFor="file-upload"
                 className="cursor-pointer text-gray-400 hover:text-white text-center"
               >
-                {file ? (
-                  <p className="text-sm">Selected file: {file.name}</p>
+                {files.length > 0 ? (
+                  <p className="text-sm">
+                    {files.length} file(s) selected
+                  </p>
                 ) : (
                   <>
                     <p className="text-sm">
@@ -110,7 +126,10 @@ export default function SiteForm() {
           </div>
 
           {/* Submit Button */}
-          <button className="w-full bg-cyan-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-600 transition duration-300">
+          <button
+            onClick={handleSubmit}
+            className="w-full bg-cyan-800 text-white py-3 rounded-lg font-semibold hover:bg-gray-600 transition duration-300"
+          >
             Host Website
           </button>
         </div>

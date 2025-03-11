@@ -25,6 +25,8 @@ import WebAssetIcon from "@mui/icons-material/WebAsset";
 import SiteForm from "./SiteForm";
 import DashBoardItem from "./DashBoardItem";
 import { useUser, RedirectToSignIn } from '@clerk/clerk-react';
+import { useDispatch,useSelector } from "react-redux";
+import set_user from "../Redux/Actions/SetUser";
 
 const NAVIGATION = [
   {
@@ -179,12 +181,12 @@ function CombinedToolbarActions() {
 function DashboardLayoutSlots(props) {
 
   const { isLoaded, isSignedIn, user } = useUser();
-
+  const dispatch=useDispatch();
   const navigate = useNavigate();
   React.useEffect(() => {
     if (isLoaded) {
-      console.log("user => ", user);
       if (isSignedIn) {
+        console.log("user => ", user.id,user.fullName,user.emailAddresses);
         console.log("User is logged in");
       } else {
         console.log("User is not logged in");

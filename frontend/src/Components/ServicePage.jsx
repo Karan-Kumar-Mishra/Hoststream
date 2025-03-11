@@ -30,7 +30,7 @@ export default function ServicePage() {
 
       <div className="site-preview bg-transparent w-full max-w-6xl flex flex-col md:flex-row justify-center items-center shadow-2xl shadow-gray-300 rounded-lg overflow-hidden">
         {/* Left Section */}
-        <div className="h-64 md:h-96 w-full md:w-1/2 flex items-center justify-center">
+        <div className="h-64 md:h-96 w-full md:w-1/2 flex items-center justify-center shadow-2xl shadow-blue-400">
           <iframe
             src="https://karan-kumar-mishra.github.io/Portfolio/"
             title="Example iframe"
