@@ -24,9 +24,10 @@ import CategoryIcon from "@mui/icons-material/Category";
 import WebAssetIcon from "@mui/icons-material/WebAsset";
 import SiteForm from "./SiteForm";
 import DashBoardItem from "./DashBoardItem";
-import { useUser, RedirectToSignIn } from '@clerk/clerk-react';
-import { useDispatch,useSelector } from "react-redux";
+import { useUser, RedirectToSignIn } from "@clerk/clerk-react";
+import { useDispatch, useSelector } from "react-redux";
 import set_user from "../Redux/Actions/SetUser";
+import create_user from "../Redux/Actions/CreateUser";
 
 const NAVIGATION = [
   {
@@ -74,7 +75,6 @@ const demoTheme = createTheme({
 });
 
 function DemoPageContent({ pathname }) {
-
   const navigate = useNavigate();
 
   return (
@@ -179,15 +179,21 @@ function CombinedToolbarActions() {
   );
 }
 function DashboardLayoutSlots(props) {
-
   const { isLoaded, isSignedIn, user } = useUser();
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   React.useEffect(() => {
     if (isLoaded) {
       if (isSignedIn) {
-        console.log("user => ", user.id,user.fullName,user.emailAddresses);
-        console.log("User is logged in");
+        // console.log(user.id,user.fullName,user.emailAddresses[0].emailAddress);
+        dispatch(
+          set_user({
+            id: user.id,
+            name: user.fullName,
+            email: user.emailAddresses[0].emailAddress,
+          })
+        );
+        dispatch(create_user());
       } else {
         console.log("User is not logged in");
         navigate("/");

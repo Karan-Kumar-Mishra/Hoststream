@@ -1,12 +1,11 @@
 const set_user = (userdata) => {
-    return async (dispatch,getState) => {
-       const state = await getState();
-
-    console.log("setting user =>",userdata);
-    console.log("state =>",userdata);
-
-       
-      dispatch({type:'ADD_NOTE',payload:res})
-    };
+  return async (dispatch, getState) => {
+    const state = await getState();
+    state.Data.UserInfo.user.id = userdata.id;
+    state.Data.UserInfo.user.email = userdata.email;
+    state.Data.UserInfo.user.name = userdata.name;
+    console.log("state =>", state.Data);
+    dispatch({ type: 'SET_USER', payload: state })
+  };
 };
 export default set_user;

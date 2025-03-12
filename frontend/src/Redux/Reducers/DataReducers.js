@@ -17,6 +17,8 @@ const initialState = {
   
   const dataReducer = (state = initialState, action) => {
     switch (action.type) {
+      case "SET_USER":
+        return {...state };
       case "HOST_STATIC_SITE":
       return {...state };
      

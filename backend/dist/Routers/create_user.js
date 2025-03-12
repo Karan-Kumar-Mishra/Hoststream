@@ -7,4 +7,7 @@ const express_1 = __importDefault(require("express"));
 const create_user = express_1.default.Router();
 exports.default = create_user.post('/', (req, res) => {
     console.log(req.body);
+    res.send({
+        status: "done"
+    });
 });
