@@ -39,11 +39,11 @@ const NAVIGATION = [
     title: "Dashboard",
     icon: <DashboardIcon />,
   },
-  {
-    segment: "setting",
-    title: "Setting",
-    icon: <SettingsIcon />,
-  },
+  // {
+  //   segment: "setting",
+  //   title: "Setting",
+  //   icon: <SettingsIcon />,
+  // },
   {
     segment: "services",
     title: "Services",

@@ -4,46 +4,12 @@ export default function DashBoardItem() {
   const itmes = [
     {
       id: 1,
-      site_name: "Website1.com",
+      site_name: "Websitename",
       buttonLabel: "Edit",
       URL: "https://www.gooele.com",
       Date: Date.now(),
     },
-    {
-      id: 2,
-      site_name: "Theme",
-      buttonLabel: "Change",
-      URL: "https://www.gooele.com",
-      Date: Date.now(),
-    },
-    {
-      id: 3,
-      site_name: "Notifications",
-      buttonLabel: "Configure",
-      URL: "https://www.gooele.com",
-      Date: Date.now(),
-    },
-    {
-      id: 4,
-      site_name: "Language",
-      buttonLabel: "Select",
-      URL: "https://www.gooele.com",
-      Date: Date.now(),
-    },
-    {
-      id: 5,
-      site_name: "Privacy",
-      buttonLabel: "Manage",
-      URL: "https://www.gooele.com",
-      Date: Date.now(),
-    },
-    {
-      id: 6,
-      site_name: "Security",
-      buttonLabel: "Update",
-      URL: "https://www.gooele.com",
-      Date: Date.now(),
-    },
+  
   ];
   const nevigate = useNavigate();
   return (
@@ -51,7 +17,7 @@ export default function DashBoardItem() {
       <div className="spotlight"></div>
       <div className="settings-box">
         <div
-          className="settings-list"
+          className="settings-list flex-wrap"
           onClick={() => {
             nevigate("/servicePage");
           }}

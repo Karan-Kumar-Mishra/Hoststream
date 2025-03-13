@@ -1,4 +1,7 @@
-import mongoose from "mongoose";
-import { model_type } from "../Data/types.js";
-import UserSchema from "./schema.js";
-//UserMode:model_type<>=  mongoose.model("Hoststream",UserSchema)
+import mongoose from 'mongoose';
+import UserSchema from './schema.js';
+import { model_type, UserModel_type } from '../Data/types.js';
+
+const UserModel: UserModel_type = mongoose.model<model_type>("Hoststream", UserSchema);
+
+export default UserModel;

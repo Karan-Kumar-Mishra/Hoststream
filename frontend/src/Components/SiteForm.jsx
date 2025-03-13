@@ -44,10 +44,10 @@ export default function SiteForm() {
   };
 
   return (
-    <div className="bg-gray-800 flex items-center justify-center min-h-screen">
-      <div className="h-full w-screen bg-slate-950 rounded-lg shadow-2xl p-8 max-w-2xl relative overflow-hidden">
+    <div className="h-screen   flex items-center justify-center min-h-screen">
+      <div className="h-full w-[80vw] rounded-lg  p-8 max-w-2xl relative overflow-hidden">
         {/* Spotlight effect */}
-        <div className="absolute inset-0 bg-black opacity-20 blur-3xl"></div>
+        <div className="absolute inset-0  opacity-20 blur-3xl"></div>
 
         {/* Form Container */}
         <div className="relative z-10">

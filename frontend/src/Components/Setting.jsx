@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/Setting.css";
-import { UserButton } from "@clerk/clerk-react";
+
 
 export default function Setting() {
   const settingsOptions = [

@@ -6,6 +6,7 @@ import DashBoard from "./DashBoard";
 import Setting from "./Setting";
 import SiteForm from "./SiteForm";
 import ServicePage from "./ServicePage";
+
 export default function Main() {
   return (
     <>
@@ -15,8 +16,7 @@ export default function Main() {
             <Route path="/" element={<StartPage />} />
             <Route path="/Dashboard" element={<DashBoard />} />
             <Route path="/setting" element={<h1>setting</h1>} />
-            <Route path="/servicePage" element={<ServicePage/>} />
-
+            <Route path="/servicePage" element={<ServicePage />} />
             <Route path="*" element={<h1>not found</h1>} />
           </Routes>
         </Suspense>

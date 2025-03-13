@@ -1,8 +1,6 @@
 const create_user = () => {
   return async (dispatch, getState) => {
     const state = await getState();
-
-
     let option = {
       method: "POST",
       headers: {
@@ -14,14 +12,10 @@ const create_user = () => {
         email: state.Data.UserInfo.user.email
       })
     }
-
-
-
     let a = await fetch(import.meta.env.VITE_BACKEND_URL + '/create_user', option);
     let res = await a.json()
-    if (res.status === "ok") {
-      console.log("done");
-    }
+    console.log(res);
+    
     dispatch({ type: 'ADD_NOTE', payload: "ok" })
   };
 };

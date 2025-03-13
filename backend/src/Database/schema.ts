@@ -6,7 +6,9 @@ const UserSchema = new mongoose.Schema({
     services: {
         static_site: []
     },
-    other_info: {},
+    other_info: {
+      
+    },
 });
 
 export default UserSchema;
