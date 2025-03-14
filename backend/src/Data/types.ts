@@ -1,6 +1,6 @@
 import { Document,Model } from 'mongoose';
 interface Data_type{
-  
+   
 }
 interface model_type extends Document {
     id: string,
@@ -17,6 +17,7 @@ type user_type={
     name: string
 }
 type UserModel_type = Model<model_type>;
+
 export {
     Data_type,
     user_type,
