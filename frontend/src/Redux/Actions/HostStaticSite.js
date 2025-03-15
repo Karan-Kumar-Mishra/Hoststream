@@ -18,7 +18,7 @@ export const host_static_website = ({ files, websiteName, domainName }) => {
 
             formData.append("websiteName", websiteName);
             formData.append("domainName", domainName);
-            formData.append("username", state.Data.UserInfo.user.name);
+            formData.append("id", state.Data.UserInfo.user.id);
 
 
             for (let [key, value] of formData.entries()) {

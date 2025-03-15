@@ -5,7 +5,7 @@ export default function create_user_folder() {
     const folderPath = `uploads/${locations.user_folder_loactions}`;
     if (!fs.existsSync(folderPath)) {
         try {
-            fs.mkdirSync(folderPath, { recursive: true });
+            fs.mkdirSync(folderPath);
             console.log('Folder created successfully!');
         } catch (err) {
             console.error('Error creating folder:', err);

@@ -17,10 +17,15 @@ type user_type={
     name: string
 }
 type UserModel_type = Model<model_type>;
-
-export {
+type site_type={
+    website_name:string,
+    site_folder:string,
+    route:string
+}
+export  {
     Data_type,
     user_type,
     model_type,
-    UserModel_type
+    UserModel_type,
+    site_type
 }

@@ -9,15 +9,16 @@ const cors_1 = __importDefault(require("cors"));
 const index_js_1 = __importDefault(require("./Routers/index.js"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const index_js_2 = __importDefault(require("./Database/index.js"));
-const server = (0, express_1.default)();
+const get_server_js_1 = __importDefault(require("./Services/get_server.js"));
+// const server=express();
 dotenv_1.default.config();
-server.use((0, cors_1.default)());
+get_server_js_1.default.use((0, cors_1.default)());
 index_js_2.default.connectdb();
-server.use(body_parser_1.default.json());
-server.use(body_parser_1.default.urlencoded({ extended: true }));
-server.use(express_1.default.json());
-server.use('/create_user', index_js_1.default.create_user);
-server.use('/host_site', index_js_1.default.host_site);
-server.listen(process.env.PORT || 80, () => {
+get_server_js_1.default.use(body_parser_1.default.json());
+get_server_js_1.default.use(body_parser_1.default.urlencoded({ extended: true }));
+get_server_js_1.default.use(express_1.default.json());
+get_server_js_1.default.use('/create_user', index_js_1.default.create_user);
+get_server_js_1.default.use('/host_site', index_js_1.default.host_site);
+get_server_js_1.default.listen(process.env.PORT || 80, () => {
     console.log("Server is running ...");
 });
