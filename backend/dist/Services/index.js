@@ -8,10 +8,12 @@ const generate_name_js_1 = __importDefault(require("./generate_name.js"));
 const setup_site_folder_js_1 = __importDefault(require("./setup_site_folder.js"));
 const get_server_js_1 = __importDefault(require("./get_server.js"));
 const route_for_site_js_1 = __importDefault(require("./route_for_site.js"));
+const get_url_with_domain_js_1 = __importDefault(require("./get_url_with_domain.js"));
 exports.default = {
     create_user_folder: create_user_folder_js_1.default,
     generate_name: generate_name_js_1.default,
     setup_site_folder: setup_site_folder_js_1.default,
     get_server: get_server_js_1.default,
-    route_for_site: route_for_site_js_1.default
+    route_for_site: route_for_site_js_1.default,
+    get_url_with_domain: get_url_with_domain_js_1.default
 };

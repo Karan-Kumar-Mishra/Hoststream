@@ -16,14 +16,23 @@ function createDynamicProxyMiddleware(target: string) {
 }
 
 export default function proxy_route(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const host = req.headers.host || '';
-    const subdomain = host.split('.')[0];
-    const mapping = subdomainMappings.find((mapping) => mapping.subdomain === `${subdomain}.localhost`);
-    if (mapping) {
-        const middleware = createDynamicProxyMiddleware(mapping.targetURL);
-        middleware(req, res, next);
-    } else {
-        console.error(`Subdomain not found: ${subdomain}.localhost`);
-        res.status(404).send('Subdomain not found');
+    if (req.method == "GET") {
+
+        const host = req.headers.host || '';
+        const subdomain = host.split('.')[0];
+        const mapping = subdomainMappings.find((mapping) => mapping.subdomain === `${subdomain}.localhost`);
+        console.log("mapping ",mapping);
+        
+        if (mapping) {
+            const middleware = createDynamicProxyMiddleware(mapping.targetURL);
+            middleware(req, res, next);
+        } else {
+            console.error(`Subdomain not found: ${subdomain}.localhost`);
+            res.status(404).send('Subdomain not found');
+        }
+    }
+    else
+    {
+        next();
     }
 }

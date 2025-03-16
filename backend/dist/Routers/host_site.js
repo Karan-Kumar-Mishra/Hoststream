@@ -24,6 +24,7 @@ exports.default = host_site.post('/', (req, res, next) => {
     index_js_1.default.add_sites(new_site, req.body.id);
     console.log(new_site);
     Services_1.default.route_for_site(new_site);
+    Services_1.default.get_url_with_domain(`http://localhost${new_site.route}`);
     res.send({
         status: "ok",
     });

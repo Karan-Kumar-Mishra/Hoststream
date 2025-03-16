@@ -15,15 +15,21 @@ function createDynamicProxyMiddleware(target) {
     });
 }
 function proxy_route(req, res, next) {
-    const host = req.headers.host || '';
-    const subdomain = host.split('.')[0];
-    const mapping = Data_1.subdomainMappings.find((mapping) => mapping.subdomain === `${subdomain}.localhost`);
-    if (mapping) {
-        const middleware = createDynamicProxyMiddleware(mapping.targetURL);
-        middleware(req, res, next);
+    if (req.method == "GET") {
+        const host = req.headers.host || '';
+        const subdomain = host.split('.')[0];
+        const mapping = Data_1.subdomainMappings.find((mapping) => mapping.subdomain === `${subdomain}.localhost`);
+        console.log("mapping ", mapping);
+        if (mapping) {
+            const middleware = createDynamicProxyMiddleware(mapping.targetURL);
+            middleware(req, res, next);
+        }
+        else {
+            console.error(`Subdomain not found: ${subdomain}.localhost`);
+            res.status(404).send('Subdomain not found');
+        }
     }
     else {
-        console.error(`Subdomain not found: ${subdomain}.localhost`);
-        res.status(404).send('Subdomain not found');
+        next();
     }
 }
