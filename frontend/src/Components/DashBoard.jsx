@@ -28,6 +28,7 @@ import { useUser, RedirectToSignIn } from "@clerk/clerk-react";
 import { useDispatch, useSelector } from "react-redux";
 import set_user from "../Redux/Actions/SetUser";
 import create_user from "../Redux/Actions/CreateUser";
+import { get_list_static_site } from "../Redux/Actions/GetListStaticSite";
 
 const NAVIGATION = [
   {
@@ -182,6 +183,7 @@ function DashboardLayoutSlots(props) {
   const { isLoaded, isSignedIn, user } = useUser();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const store_data = useSelector((state) => state.Data);
   React.useEffect(() => {
     if (isLoaded) {
       if (isSignedIn) {
@@ -199,7 +201,15 @@ function DashboardLayoutSlots(props) {
         navigate("/");
       }
     }
-  }, [isLoaded, isSignedIn, user, navigate]);
+  }, [
+    isLoaded,
+    isSignedIn,
+    user,
+    navigate,
+    store_data.UserInfo,
+    create_user,
+    get_list_static_site,
+  ]);
   const { window } = props;
   const router = useDemoRouter("/dashboard");
   const demoWindow = window !== undefined ? window() : undefined;

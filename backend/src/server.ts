@@ -16,7 +16,11 @@ server.use(express.json());
 
 server.use('/create_user',Routers.create_user);
 server.use('/host_site',Routers.host_site);
+server.use('/get_sites_list',Routers.get_sites_list);
+server.use('/delete_site',Routers.delete_site);
 
-server.listen(process.env.PORT || 80,()=>{
+
+
+server.listen(88,()=>{
     console.log("Server is running ...");
 })

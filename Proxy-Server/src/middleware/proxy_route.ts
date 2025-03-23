@@ -1,7 +1,13 @@
 import express from "express";
-import { subdomainMappings } from "../Data";
-import { createProxyMiddleware, Options } from 'http-proxy-middleware';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import { IncomingMessage, ServerResponse } from 'http';
+import Database from "../Database";
+
+// Define the type for subdomain mappings
+interface SubdomainMapping {
+    subdomain: string;
+    targetURL: string;
+}
 
 function createDynamicProxyMiddleware(target: string) {
     return createProxyMiddleware({
@@ -15,24 +21,32 @@ function createDynamicProxyMiddleware(target: string) {
     });
 }
 
-export default function proxy_route(req: express.Request, res: express.Response, next: express.NextFunction) {
+export default async function proxy_route(req: express.Request, res: express.Response, next: express.NextFunction) {
     if (req.method == "GET") {
 
-        const host = req.headers.host || '';
-        const subdomain = host.split('.')[0];
-        const mapping = subdomainMappings.find((mapping) => mapping.subdomain === `${subdomain}.localhost`);
-        console.log("mapping ",mapping);
-        
-        if (mapping) {
-            const middleware = createDynamicProxyMiddleware(mapping.targetURL);
-            middleware(req, res, next);
-        } else {
-            console.error(`Subdomain not found: ${subdomain}.localhost`);
-            res.status(404).send('Subdomain not found');
-        }
-    }
-    else
-    {
+        // Handle the case where Database.ReadDomains() might return undefined
+        Database.ReadDomains().then((subdomainMappings: SubdomainMapping[] | undefined) => {
+            //  console.log(subdomainMappings);
+
+            const mappings = subdomainMappings || [];
+            const host = req.headers.host || '';
+            const subdomain = host.split('.')[0];
+            console.log("subdomain=>", subdomain);
+            const mapping = mappings.find((mapping) => mapping.subdomain == subdomain);
+           
+            console.log("mapign=>", mapping);
+
+            if (mapping) {
+                const middleware = createDynamicProxyMiddleware(mapping.targetURL);
+                middleware(req, res, next);
+            } else {
+                // console.error(`Subdomain not found: ${subdomain}.localhost`);
+                res.status(404).send('Subdomain not found');
+            }
+        }).catch((err) => {
+            console.log(err);
+        });
+    } else {
         next();
     }
 }

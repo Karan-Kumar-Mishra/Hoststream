@@ -10,7 +10,7 @@ export  default function get_url_with_domain(targetURL:string) {
             targetURL:targetURL
         })
       }
-    fetch("http://localhost:8080/add_route",option).then((res)=>{
+    fetch("http://localhost:80/add_route",option).then((res)=>{
        return res.json();
     }).then((ans)=>{
        return ans;

@@ -1,4 +1,4 @@
-import UserModel from "./model.js";
+import {UserModel} from "./model.js";
 import { user_type } from "../Data/types.js";
 import find_user from "./find_user.js";
 export default async function create_user_db(user: user_type) {

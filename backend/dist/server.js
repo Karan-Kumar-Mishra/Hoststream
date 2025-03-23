@@ -19,6 +19,8 @@ get_server_js_1.default.use(body_parser_1.default.urlencoded({ extended: true })
 get_server_js_1.default.use(express_1.default.json());
 get_server_js_1.default.use('/create_user', index_js_1.default.create_user);
 get_server_js_1.default.use('/host_site', index_js_1.default.host_site);
-get_server_js_1.default.listen(process.env.PORT || 80, () => {
+get_server_js_1.default.use('/get_sites_list', index_js_1.default.get_sites_list);
+get_server_js_1.default.use('/delete_site', index_js_1.default.delete_site);
+get_server_js_1.default.listen(88, () => {
     console.log("Server is running ...");
 });

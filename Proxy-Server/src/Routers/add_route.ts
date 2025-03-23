@@ -1,6 +1,7 @@
 import express from "express"
 import { subdomainMappings } from "../Data";
 import Services from "../Services";
+import ReadDomains from "../Database/ReadDomain";
 const add_route = express.Router();
 export default add_route.post('/', (req, res) => {
 
@@ -9,7 +10,8 @@ export default add_route.post('/', (req, res) => {
         targetURL: req.body.targetURL
     };
     subdomainMappings.push(new_maping);
-    console.log(subdomainMappings);
+    //console.log(subdomainMappings);
+    ReadDomains()
     res.send({
         status: "ok"
     })

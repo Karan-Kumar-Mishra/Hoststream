@@ -1,5 +1,5 @@
 export default function generate_name(length = 5) {
-    const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let randomName = '';
 
     for (let i = 0; i < length; i++) {
