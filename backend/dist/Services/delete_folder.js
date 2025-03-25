@@ -5,23 +5,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = deleteFolderRecursive;
 const fs_1 = __importDefault(require("fs"));
-const path_1 = __importDefault(require("path"));
 async function deleteFolderRecursive(folderPath) {
+    console.log("Attempting to delete folder at location:", folderPath);
     try {
-        // Resolve the full path to avoid issues with relative paths
-        const resolvedPath = path_1.default.resolve(folderPath);
-        // Check if the folder exists
-        if (fs_1.default.existsSync(resolvedPath)) {
-            console.log(`Deleting folder: ${resolvedPath}`);
-            // Use fs.promises.rm for asynchronous deletion
-            await fs_1.default.promises.rm(resolvedPath, { recursive: true, force: true });
-            console.log(`Folder deleted successfully: ${resolvedPath}`);
+        // Check if folder exists first
+        if (!fs_1.default.existsSync(folderPath)) {
+            console.log(`Folder does not exist at path: ${folderPath}`);
+            return;
         }
-        else {
-            console.log(`Folder does not exist: ${resolvedPath}`);
-        }
+        // Modern way to delete recursively (Node.js 14.14.0+)
+        fs_1.default.rmSync(folderPath, {
+            recursive: true,
+            force: true, // Continue even if files are readonly
+            maxRetries: 3, // Retry if files are temporarily locked
+            retryDelay: 100 // Wait 100ms between retries
+        });
+        console.log("Successfully deleted folder and its contents");
     }
     catch (err) {
-        console.error(`Error deleting folder: ${err}`);
+        console.error("Error deleting folder:", err);
+        throw err; // Re-throw if you want calling code to handle it
     }
 }

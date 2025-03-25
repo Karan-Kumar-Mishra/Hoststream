@@ -8,9 +8,8 @@ const Database_1 = __importDefault(require("../Database"));
 const delete_folder_js_1 = __importDefault(require("./delete_folder.js"));
 async function find_site_folder_and_delete(user_id, site_id) {
     const location = await Database_1.default.get_location(user_id, site_id);
-    (0, delete_folder_js_1.default)(String(location)).then((ans) => {
-        console.log("ans=>", ans);
-    }).catch((err) => {
-        console.log("error while deleteing the folder ", err);
-    });
+    // deleteFolderRecursive(String(location))
+    (async () => {
+        await (0, delete_folder_js_1.default)(String(location));
+    })();
 }

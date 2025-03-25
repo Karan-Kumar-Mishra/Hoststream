@@ -8,6 +8,7 @@ const delete_site = express_1.default.Router();
 const Database_1 = __importDefault(require("../Database"));
 const Services_1 = __importDefault(require("../Services"));
 exports.default = delete_site.post('/', (req, res) => {
+    console.log("get request for delete..");
     if (!req.body || !req.body.user_id || !req.body.site_id) {
         res.send({
             status: "error",

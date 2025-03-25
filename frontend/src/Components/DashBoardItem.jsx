@@ -18,20 +18,12 @@ export default function DashBoardItem() {
     nevigate("/servicePage");
   }
   React.useEffect(() => {
+   // console.log("item is renderde.. state=>",store_data.UserInfo.services.static_site.length);
     Dispatch(get_list_static_site());
     setsites_item(store_data.UserInfo.services.static_site);
   }, [
+    store_data,
     store_data.UserInfo.services.static_site,
-    get_list_static_site,
-    dispatch,
-    isLoaded,
-    isSignedIn,
-    user,
-    navigate,
-    store_data.UserInfo.user.id,
-    setsites_item,
-    sites_item,
-
   ]);
   return (
     <div className="settings-container">
@@ -47,7 +39,7 @@ export default function DashBoardItem() {
               }}
             >
               <span>{item.website_name}</span>
-              <a herf={item.URL}>{item.URL}</a>
+              <a href={item.URL}>{item.URL}</a>
               <div className="option-button">...</div>
             </div>
           ))}
