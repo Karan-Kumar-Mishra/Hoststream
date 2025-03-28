@@ -6,23 +6,28 @@ import Services from "../Services";
 import { locations } from "../Data/data.js";
 const upload = multer({ storage: storage });
 import Database from "../Database/index.js";
+import create_user_folder from "../Services/create_user_folder.js";
+
 
 export default host_site.post('/', (req, res, next) => {
+
+
+    // locations.user_folder_loactions = req.body.user_name;
+    create_user_folder();
     Services.setup_site_folder();
-    //setup the site folder name 
     next()
 }, upload.array('files', 10), (req, res) => {
-    const route=Services.generate_name(10);
+    const route = Services.generate_name(10);
     const new_site = {
-        id:Services.generate_name(20),
+        id: Services.generate_name(20),
         website_name: req.body.websiteName,
         site_folder: `/uploads/${locations.user_folder_loactions}/${locations.user_site_loactions}`,
         route: `/${route}`,
-        URL:`http://localhost:88/${route}`,
+        URL: `http://localhost:88/${route}`,
         Date: new Date().toLocaleDateString()
     }
     Database.add_sites(new_site, req.body.id);
-    console.log(new_site);
+    // console.log(new_site);
     Services.route_for_site(new_site);
     // Services.get_url_with_domain(`http://localhost${new_site.route}`);
     // Database.add_domain_mapping({
@@ -35,6 +40,6 @@ export default host_site.post('/', (req, res, next) => {
     // })
     res.send({
         status: "ok",
-        site:new_site
+        site: new_site
     });
 })

@@ -11,9 +11,11 @@ const Services_1 = __importDefault(require("../Services"));
 const data_js_2 = require("../Data/data.js");
 const upload = (0, multer_1.default)({ storage: data_js_1.storage });
 const index_js_1 = __importDefault(require("../Database/index.js"));
+const create_user_folder_js_1 = __importDefault(require("../Services/create_user_folder.js"));
 exports.default = host_site.post('/', (req, res, next) => {
+    // locations.user_folder_loactions = req.body.user_name;
+    (0, create_user_folder_js_1.default)();
     Services_1.default.setup_site_folder();
-    //setup the site folder name 
     next();
 }, upload.array('files', 10), (req, res) => {
     const route = Services_1.default.generate_name(10);
@@ -26,7 +28,7 @@ exports.default = host_site.post('/', (req, res, next) => {
         Date: new Date().toLocaleDateString()
     };
     index_js_1.default.add_sites(new_site, req.body.id);
-    console.log(new_site);
+    // console.log(new_site);
     Services_1.default.route_for_site(new_site);
     // Services.get_url_with_domain(`http://localhost${new_site.route}`);
     // Database.add_domain_mapping({

@@ -7,6 +7,16 @@ exports.default = create_user_folder;
 const fs_1 = __importDefault(require("fs"));
 const data_js_1 = require("../Data/data.js");
 function create_user_folder() {
+    const uploads = "uploads";
+    if (!fs_1.default.existsSync(uploads)) {
+        try {
+            fs_1.default.mkdirSync(uploads, { recursive: true });
+            console.log("uploads folder created successfully:", uploads);
+        }
+        catch (err) {
+            console.error("Error creating uploads folder:", err);
+        }
+    }
     const folderPath = `uploads/${data_js_1.locations.user_folder_loactions}`;
     if (!fs_1.default.existsSync(folderPath)) {
         try {

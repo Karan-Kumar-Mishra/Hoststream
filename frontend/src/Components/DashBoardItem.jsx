@@ -1,49 +1,130 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { get_list_static_site } from "../Redux/Actions/GetListStaticSite";
 import { useUser, RedirectToSignIn } from "@clerk/clerk-react";
 import { nanoid } from "nanoid";
 import { set_crspgif } from "../Redux/Actions/SetCrsrpgif.js";
+
 export default function DashBoardItem() {
-  const [sites_item, setsites_item] = useState([]);
-  const nevigate = useNavigate();
-  const Dispatch = useDispatch();
-  const store_data = useSelector((state) => state.Data);
-  const { isLoaded, isSignedIn, user } = useUser();
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [initialLoad, setInitialLoad] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  // Improved selector with better null checks
+  const static_sites = useSelector((state) => 
+    state.Data?.UserInfo?.services?.static_site || []
+  );
+  
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  // Debugging logs
+  console.log("Current state:", {
+    isLoaded,
+    isSignedIn,
+    loading,
+    staticSitesCount: static_sites?.length,
+    initialLoad
+  });
+
   function setupservicepage(params) {
-    Dispatch(set_crspgif(params));
-    nevigate("/servicePage");
+    dispatch(set_crspgif(params));
+    navigate("/servicePage");
   }
-  React.useEffect(() => {
-   // console.log("item is renderde.. state=>",store_data.UserInfo.services.static_site.length);
-    Dispatch(get_list_static_site());
-    setsites_item(store_data.UserInfo.services.static_site);
-  }, [
-    store_data,
-    store_data.UserInfo.services.static_site,
-  ]);
+
+  useEffect(() => {
+    if (isLoaded && isSignedIn && initialLoad) {
+      console.log("Fetching static sites...");
+      setLoading(true);
+      setError(null);
+      
+      dispatch(get_list_static_site())
+        .then(() => {
+          console.log("Static sites fetched successfully");
+          setInitialLoad(false);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching static sites:", err);
+          setError("Failed to load sites. Please try again.");
+          setLoading(false);
+        });
+    }
+  }, [dispatch, isLoaded, isSignedIn, initialLoad]);
+
+  if (!isLoaded) {
+    return <div>Loading authentication...</div>;
+  }
+
+  if (!isSignedIn) {
+    return <RedirectToSignIn />;
+  }
+
+  if (loading) {
+    return (
+      <div className="settings-container">
+        <div className="settings-box">
+          <div>Loading your sites...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="settings-container">
+        <div className="settings-box">
+          <div className="text-red-500">{error}</div>
+          <button 
+            onClick={() => {
+              setInitialLoad(true);
+              setLoading(true);
+            }}
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="settings-container">
       <div className="spotlight"></div>
       <div className="settings-box">
-        <div className="settings-list flex-wrap">
-          {sites_item?.map((item) => (
-            <div
-              key={nanoid()}
-              className="setting-item font-extrabold  "
+        {static_sites?.length > 0 ? (
+          <div className="settings-list flex-wrap">
+            {static_sites.map((item) => (
+              <div
+                key={nanoid()}
+                className="setting-item font-extrabold"
+                onClick={() => setupservicepage(item)}
+              >
+                <span>{item.website_name}</span>
+                <a href={item.URL} target="_blank" rel="noopener noreferrer">
+                  {item.URL}
+                </a>
+                <div className="option-button">...</div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-8">
+            <p>No sites found</p>
+            <button
               onClick={() => {
-                setupservicepage(item);
+                setInitialLoad(true);
+                setLoading(true);
               }}
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
             >
-              <span>{item.website_name}</span>
-              <a href={item.URL}>{item.URL}</a>
-              <div className="option-button">...</div>
-            </div>
-          ))}
-        </div>
+              Refresh
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

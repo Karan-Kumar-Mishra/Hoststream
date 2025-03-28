@@ -1,8 +1,7 @@
 import multer from "multer";
-import express from "express";
 import path from "path";
 import fs from "fs";
-import Services from "../Services";
+
 let locations = {
     user_folder_loactions: "default",
     user_site_loactions: "default"
@@ -10,14 +9,24 @@ let locations = {
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-     
+        const uploads = path.join("uploads");
+        if (!fs.existsSync(uploads)) {
+            try {
+                fs.mkdirSync(uploads, { recursive: true });
+                console.log("uploads folder created successfully:", uploads);
+            } catch (err) {
+                console.error("Error creating uploads folder:", err);
+            }
+        }
         let folderPath = path.join("uploads", locations.user_folder_loactions, locations.user_site_loactions);
+        console.log("check site paht=>",folderPath);
+        
         if (!fs.existsSync(folderPath)) {
             try {
                 fs.mkdirSync(folderPath, { recursive: true });
-                console.log("Folder created successfully:", folderPath);
+                console.log("site Folder created successfully:", folderPath);
             } catch (err) {
-                console.error("Error creating folder:", err);
+                console.error("Error site folder creating folder:", err);
             }
         }
         cb(null, folderPath);

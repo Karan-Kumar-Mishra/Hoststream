@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { host_static_website } from "../Redux/Actions/HostStaticSite";
-
+import { setup_folder } from "../Redux/Actions/setupFolder";
 export default function SiteForm() {
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState([]); // Store multiple files
@@ -42,7 +42,9 @@ export default function SiteForm() {
   const handleDragLeave = () => {
     setIsDragging(false);
   };
-
+  useEffect(() => {
+    dispatch(setup_folder());
+  }, []);
   return (
     <div className="h-screen   flex items-center justify-center min-h-screen">
       <div className="h-full w-[80vw] rounded-lg  p-8 max-w-2xl relative overflow-hidden">
@@ -108,9 +110,7 @@ export default function SiteForm() {
                 className="cursor-pointer text-gray-400 hover:text-white text-center"
               >
                 {files.length > 0 ? (
-                  <p className="text-sm">
-                    {files.length} file(s) selected
-                  </p>
+                  <p className="text-sm">{files.length} file(s) selected</p>
                 ) : (
                   <>
                     <p className="text-sm">

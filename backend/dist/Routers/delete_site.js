@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const delete_site = express_1.default.Router();
 const Database_1 = __importDefault(require("../Database"));
 const Services_1 = __importDefault(require("../Services"));
+const data_1 = require("../Data/data");
 exports.default = delete_site.post('/', (req, res) => {
     console.log("get request for delete..");
     if (!req.body || !req.body.user_id || !req.body.site_id) {
@@ -16,6 +17,7 @@ exports.default = delete_site.post('/', (req, res) => {
         });
     }
     else {
+        data_1.locations.user_folder_loactions = req.body.name;
         Services_1.default.find_site_folder_and_delete(req.body.user_id, req.body.site_id);
         Database_1.default.delete_site_db(req.body.user_id, req.body.site_id).then((ans) => {
             if (ans) {
