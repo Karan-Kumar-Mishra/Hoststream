@@ -6,17 +6,10 @@ import Services from "../Services";
 import { locations } from "../Data/data.js";
 const upload = multer({ storage: storage });
 import Database from "../Database/index.js";
-import create_user_folder from "../Services/create_user_folder.js";
 
 
-export default host_site.post('/', (req, res, next) => {
 
-
-    // locations.user_folder_loactions = req.body.user_name;
-    create_user_folder();
-    Services.setup_site_folder();
-    next()
-}, upload.array('files', 10), (req, res) => {
+export default host_site.post('/',  upload.array('files', 10), (req, res) => {
     const route = Services.generate_name(10);
     const new_site = {
         id: Services.generate_name(20),
