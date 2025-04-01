@@ -5,9 +5,13 @@ import express from "express";
 import path from "path";
 
 export default function route_for_site(site: site_type) {
-    server.use(`${site.route}`, express.static(path.join(__dirname, "..", site.site_folder)));
+
+    
+    server.use(`${site.route}`, express.static(path.join(__dirname, "..",site.site_folder)));
     server.get(`${site.route}`, (req, res) => {
-        const filePath = path.join(__dirname, "..", site.site_folder, "index.html");
+    const filePath = path.join(__dirname,"..", site.site_folder, "index.html");
+    console.log("file path: ",filePath);
+    
         res.sendFile(filePath, (err) => {
             if (err) {
                 console.error(`Error sending file: ${err.message}`);

@@ -13,8 +13,7 @@ console.log("get request for delete..");
         })
     }
     else {
-        locations.user_folder_loactions=req.body.name;
-    
+        locations.user_folder_loactions=req.body.id;
         Services.find_site_folder_and_delete(req.body.user_id, req.body.site_id)
         Database.delete_site_db(req.body.user_id, req.body.site_id).then((ans) => {
             if (ans) {

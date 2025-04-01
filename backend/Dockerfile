@@ -1,39 +1,36 @@
-# Use official Node.js LTS image as base
-FROM node:22-alpine as builder
+# Builder stage
+FROM node:22-bullseye as builder
 
-# Set working directory
 WORKDIR /app
-
-# Copy package files first to leverage Docker cache
 COPY package*.json ./
 COPY tsconfig*.json ./
-
-# Install dependencies INCLUDING devDependencies (needed for tsc)
 RUN npm install --include=dev
-
-# Copy all source files
 COPY . .
+RUN npm run build
 
-# Build TypeScript to JavaScript
-RUN npm install typescript --save-dev && npm run build
+# Production stage
+FROM node:22-bullseye
 
-
-# Use a smaller image for production
-FROM node:22-alpine
+# Create app directory and set proper permissions
+RUN mkdir -p /app/dist/uploads && \
+    chown -R node:node /app
 
 WORKDIR /app
 
-# Copy package files again
-COPY package*.json ./
-
-# Install only production dependencies
+# Copy package files and install production deps
+COPY --chown=node:node package*.json ./
 RUN npm install --only=production
 
-# Copy built JavaScript files from builder
-COPY --from=builder /app/dist ./dist
+# Copy built files from builder
+COPY --from=builder --chown=node:node /app/dist ./dist
 
-# Expose the port the app runs on
-EXPOSE ${PORT:-88}
+# Ensure uploads directory exists and is writable
+RUN mkdir -p /app/dist/uploads && \
+    chown node:node /app/dist/uploads && \
+    chmod 755 /app/dist/uploads
 
-# Command to run the application
+USER node
+
+EXPOSE 88
+
 CMD ["node", "dist/server.js"]

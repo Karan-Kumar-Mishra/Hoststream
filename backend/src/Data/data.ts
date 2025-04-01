@@ -9,7 +9,7 @@ let locations = {
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const uploads = path.join("uploads");
+        const uploads = path.join(__dirname,"..","uploads");
         if (!fs.existsSync(uploads)) {
             try {
                 fs.mkdirSync(uploads, { recursive: true });
@@ -18,8 +18,8 @@ const storage = multer.diskStorage({
                 console.error("Error creating uploads folder:", err);
             }
         }
-        let folderPath = path.join("uploads", locations.user_folder_loactions, locations.user_site_loactions);
-        console.log("check site paht=>",folderPath);
+        let folderPath = path.join(__dirname,"..","uploads", locations.user_folder_loactions, locations.user_site_loactions);
+      
         
         if (!fs.existsSync(folderPath)) {
             try {
