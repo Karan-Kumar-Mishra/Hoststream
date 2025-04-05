@@ -1,0 +1,14 @@
+/* Login.css */
+.custom-sign-in-button {
+    padding: 10px 20px !important;
+    background-color: #4CAF50 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+  }
+  
+  .custom-sign-in-button:hover {
+    background-color: #45a049 !important;
+  }

@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { host_static_website } from "../Redux/Actions/HostStaticSite";
 import { setup_folder } from "../Redux/Actions/setupFolder";
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+
+
 export default function SiteForm() {
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState([]); // Store multiple files
   const [websiteName, setWebsiteName] = useState("");
   const [domainName, setDomainName] = useState("");
   const dispatch = useDispatch();
+  const store_data = useSelector((state) => state.Data);
+  const [open, setOpen] = useState(false); //for loading 
 
+  useEffect(() => {
+    setOpen(store_data.ComponentData.show_file_loader);
+  }, [store_data.ComponentData.show_file_loader]);
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files); // Convert FileList to array
     if (selectedFiles.length > 0) {
@@ -45,8 +54,16 @@ export default function SiteForm() {
   useEffect(() => {
     dispatch(setup_folder());
   }, []);
+ 
   return (
     <div className="h-screen   flex items-center justify-center min-h-screen">
+      <Backdrop
+        sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+        open={open}
+    
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <div className="h-full w-[80vw] rounded-lg  p-8 max-w-2xl relative overflow-hidden">
         {/* Spotlight effect */}
         <div className="absolute inset-0  opacity-20 blur-3xl"></div>
@@ -91,9 +108,8 @@ export default function SiteForm() {
               Upload Files
             </label>
             <div
-              className={`flex items-center justify-center w-full bg-black rounded-lg border-2 border-dashed p-6 ${
-                isDragging ? "border-purple-500 bg-gray-900" : "border-gray-700"
-              }`}
+              className={`flex items-center justify-center w-full bg-black rounded-lg border-2 border-dashed p-6 ${isDragging ? "border-purple-500 bg-gray-900" : "border-gray-700"
+                }`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}

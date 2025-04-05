@@ -1,6 +1,6 @@
 const initialState = {
   ComponentData: {
-
+     show_file_loader:false
   },
   UserInfo: {
     user: {
@@ -37,7 +37,9 @@ const dataReducer = (state = initialState, action) => {
       return state;
     case "SETUP_FOLDER":
       return state;
-
+    case "SHOW_LOADER":
+      state.ComponentData.show_file_loader=action.payload;
+      return {...state};
     default:
 
 

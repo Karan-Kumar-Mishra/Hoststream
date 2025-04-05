@@ -1,0 +1,10 @@
+# Ignore node_modules everywhere
+**/node_modules/
+
+# Ignore backend/dist
+/backend/dist/
+
+# Ignore .env files in all relevant directories
+/backend/.env
+/frontend/.env
+/Proxy-Server/.env
