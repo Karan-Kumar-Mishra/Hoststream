@@ -4,12 +4,13 @@ import multer from "multer";
 import { storage } from "../Data/data.js"
 import Services from "../Services";
 import { locations } from "../Data/data.js";
-const upload = multer({ storage: storage });
+
 import Database from "../Database/index.js";
+import { upload } from "../Data/data.js";
 
 
 
-export default host_site.post('/', upload.array('files', 10), (req, res) => {
+export default host_site.post('/', upload.array('files', 20), (req, res) => {
     const route = Services.generate_name(10);
     const new_site = {
         id: Services.generate_name(20),

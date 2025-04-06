@@ -30,13 +30,21 @@ const storage = multer.diskStorage({
             }
         }
         cb(null, folderPath);
+        
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
     }
 });
-
+const upload = multer({
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 1024, // 10MB file size limit
+        files: 50 // Maximum 50 files allowed
+    }
+});
 export {
     storage,
-    locations
+    locations,
+    upload
 };

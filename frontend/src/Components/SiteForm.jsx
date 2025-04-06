@@ -5,7 +5,7 @@ import { setup_folder } from "../Redux/Actions/setupFolder";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
-
+import {set_crspgif} from "../Redux/Actions/SetCrsrpgif.js";
 export default function SiteForm() {
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState([]); // Store multiple files
@@ -21,13 +21,13 @@ export default function SiteForm() {
   }, [store_data.ComponentData.show_file_loader]);
 
   useEffect(() => {
-    if (store_data.ComponentData.nvgt_to_site)
+    if (store_data.ComponentData.nvgt_to_site===true)
     {
       console.log("nevigating.. to site page.");
-      nevigate("/servicePage");
 
+      nevigate("/servicePage");
     }
-  }, [store_data.ComponentData.nvgt_to_site, nevigate])
+  }, [store_data.ComponentData.nvgt_to_site])
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files); // Convert FileList to array

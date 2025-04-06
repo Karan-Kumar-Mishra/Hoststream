@@ -17,18 +17,27 @@ export const host_static_website = ({ files, websiteName, domainName }) => {
             dispatch({ type: 'SHOW_LOADER', payload: true })
             console.log("loading start =>", state.Data.ComponentData.show_file_loader);
 
-            const response = await axios.post(
-                import.meta.env.VITE_BACKEND_URL + "/host_site",
-                formData
-            );
-            console.log("Response=>", response.data);
-            set_crspgif(response.data.site);
-            dispatch({ type: 'SET_CRSRPGIF', payload: state });
-            dispatch({ type: 'SHOW_LOADER', payload: false });
-            dispatch({ type: 'NVGT_TO_SITE', payload: true });
+            fetch(import.meta.env.VITE_BACKEND_URL + "/host_site", {
+                method: 'POST',
+                body: formData,
 
-
-
+            }).then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            }
+            ).then((response) => {
+                console.log("Response data:", response);
+                set_crspgif(response?.data?.site);
+                dispatch({ type: 'SET_CRSRPGIF', payload: state });
+                dispatch({ type: 'SHOW_LOADER', payload: false });
+                dispatch({ type: 'NVGT_TO_SITE', payload: true });
+                return response;
+            })
+        
+        
+           
         } catch (error) {
             console.error("Error uploading files:", error);
         }

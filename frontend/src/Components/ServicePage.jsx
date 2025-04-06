@@ -11,8 +11,8 @@ export default function ServicePage() {
   const navigate = useNavigate();
   const Dispatch = useDispatch();
   useEffect(() => {
-    console.log("state=>",store_data);
-    
+   
+    Dispatch({ type: 'NVGT_TO_SITE', payload: false })
     if (isLoaded) {
       console.log("user => ", user);
       if (isSignedIn) {
