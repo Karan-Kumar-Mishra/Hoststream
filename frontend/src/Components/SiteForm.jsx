@@ -4,7 +4,7 @@ import { host_static_website } from "../Redux/Actions/HostStaticSite";
 import { setup_folder } from "../Redux/Actions/setupFolder";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import { useNavigate } from "react-router-dom";
 
 export default function SiteForm() {
   const [isDragging, setIsDragging] = useState(false);
@@ -13,11 +13,22 @@ export default function SiteForm() {
   const [domainName, setDomainName] = useState("");
   const dispatch = useDispatch();
   const store_data = useSelector((state) => state.Data);
+  const nevigate = useNavigate();
   const [open, setOpen] = useState(false); //for loading 
 
   useEffect(() => {
     setOpen(store_data.ComponentData.show_file_loader);
   }, [store_data.ComponentData.show_file_loader]);
+
+  useEffect(() => {
+    if (store_data.ComponentData.nvgt_to_site)
+    {
+      console.log("nevigating.. to site page.");
+      nevigate("/servicePage");
+
+    }
+  }, [store_data.ComponentData.nvgt_to_site, nevigate])
+
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files); // Convert FileList to array
     if (selectedFiles.length > 0) {
@@ -54,13 +65,13 @@ export default function SiteForm() {
   useEffect(() => {
     dispatch(setup_folder());
   }, []);
- 
+
   return (
     <div className="h-screen   flex items-center justify-center min-h-screen">
       <Backdrop
         sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
         open={open}
-    
+
       >
         <CircularProgress color="inherit" />
       </Backdrop>

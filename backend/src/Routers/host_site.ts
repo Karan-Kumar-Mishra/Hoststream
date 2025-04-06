@@ -9,7 +9,7 @@ import Database from "../Database/index.js";
 
 
 
-export default host_site.post('/',  upload.array('files', 10), (req, res) => {
+export default host_site.post('/', upload.array('files', 10), (req, res) => {
     const route = Services.generate_name(10);
     const new_site = {
         id: Services.generate_name(20),
@@ -19,9 +19,14 @@ export default host_site.post('/',  upload.array('files', 10), (req, res) => {
         URL: `http://localhost:88/${route}`,
         Date: new Date().toLocaleDateString()
     }
-    Database.add_sites(new_site, req.body.id);
+    Database.add_sites(new_site, req.body.id).then(() => {
+        Services.route_for_site(new_site);
+        res.send({
+            status: "ok",
+            site: new_site
+        });
+    })
     // console.log(new_site);
-    Services.route_for_site(new_site);
     // Services.get_url_with_domain(`http://localhost${new_site.route}`);
     // Database.add_domain_mapping({
     //     subdomain:`${Services.generate_name(6)}`,
@@ -31,8 +36,5 @@ export default host_site.post('/',  upload.array('files', 10), (req, res) => {
     // }).catch((err)=>{
     //     console.log("err",err);
     // })
-    res.send({
-        status: "ok",
-        site: new_site
-    });
+
 })

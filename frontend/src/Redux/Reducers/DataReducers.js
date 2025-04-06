@@ -1,6 +1,7 @@
 const initialState = {
   ComponentData: {
-     show_file_loader:false
+     show_file_loader:false,
+     nvgt_to_site:false
   },
   UserInfo: {
     user: {
@@ -40,9 +41,10 @@ const dataReducer = (state = initialState, action) => {
     case "SHOW_LOADER":
       state.ComponentData.show_file_loader=action.payload;
       return {...state};
+    case "NVGT_TO_SITE":
+      state.ComponentData.nvgt_to_site=action.payload;
+      return {...state}; 
     default:
-
-
       return state;
   }
 };

@@ -68,7 +68,7 @@ export default function ServicePage() {
             onClick={() => {
               deleteing_site(store_data.UserInfo.other_info.crsrpgif.id);
             }}
-            class="ui-btn"
+            className="ui-btn"
           >
             Delete
           </button>
