@@ -5,6 +5,7 @@ import add_domain_mapping from "./add_domain_mapping.js";
 import get_sites_list_db from "./get_sites_list_db.js";
 import delete_site_db from "./delete_site_db.js";
 import get_location from "./get_site_folder_location.js";
+import find_site from "./find_site.js";
 export default{
     connectdb,
     create_user,
@@ -12,5 +13,6 @@ export default{
     add_domain_mapping,
     get_sites_list_db,
     delete_site_db,
-    get_location
+    get_location,
+    find_site
 }

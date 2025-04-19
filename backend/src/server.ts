@@ -6,8 +6,8 @@ import bodyParser from "body-parser";
 import Database from "./Database/index.js";
 import server from "./Services/get_server.js"
 import path from "path";
-
-
+import Middleware from "./Middleware/index.js";
+import { connect_redis } from "./Data/data.js";
 // const server=express();
 
 dotenv.config()
@@ -17,9 +17,13 @@ dotenv.config({
 server.use(cors());
 
 Database.connectdb();
+connect_redis();
+
+
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(express.json());
+server.use(Middleware.get_site_route);
 
 
 server.use('/create_user', Routers.create_user);

@@ -12,6 +12,7 @@ export default function DashBoardItem() {
   const [initialLoad, setInitialLoad] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const store_data = useSelector((state) => state.Data);
   
   // Improved selector with better null checks
   const static_sites = useSelector((state) => 
@@ -42,7 +43,7 @@ export default function DashBoardItem() {
       
       dispatch(get_list_static_site())
         .then(() => {
-          console.log("Static sites fetched successfully");
+          console.log("Static sites fetched successfully state data:",store_data);
           setInitialLoad(false);
           setLoading(false);
         })
@@ -52,7 +53,7 @@ export default function DashBoardItem() {
           setLoading(false);
         });
     }
-  }, [dispatch, isLoaded, isSignedIn, initialLoad]);
+  }, [dispatch, isLoaded, isSignedIn, initialLoad,store_data?.UserInfo?.services?.static_site ]);
 
   if (!isLoaded) {
     return <div>Loading authentication...</div>;
