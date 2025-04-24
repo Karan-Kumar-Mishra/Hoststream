@@ -22,13 +22,13 @@ export default function DashBoardItem() {
   const { isLoaded, isSignedIn, user } = useUser();
 
   // Debugging logs
-  console.log("Current state:", {
-    isLoaded,
-    isSignedIn,
-    loading,
-    staticSitesCount: static_sites?.length,
-    initialLoad
-  });
+  // console.log("Current state:", {
+  //   isLoaded,
+  //   isSignedIn,
+  //   loading,
+  //   staticSitesCount: static_sites?.length,
+  //   initialLoad
+  // });
 
   function setupservicepage(params) {
     dispatch(set_crspgif(params));
@@ -37,18 +37,18 @@ export default function DashBoardItem() {
 
   useEffect(() => {
     if (isLoaded && isSignedIn && initialLoad) {
-      console.log("Fetching static sites...");
+     // console.log("Fetching static sites...");
       setLoading(true);
       setError(null);
       
       dispatch(get_list_static_site())
         .then(() => {
-          console.log("Static sites fetched successfully state data:",store_data);
+         // console.log("Static sites fetched successfully state data:",store_data);
           setInitialLoad(false);
           setLoading(false);
         })
         .catch((err) => {
-          console.error("Error fetching static sites:", err);
+        //  console.error("Error fetching static sites:", err);
           setError("Failed to load sites. Please try again.");
           setLoading(false);
         });

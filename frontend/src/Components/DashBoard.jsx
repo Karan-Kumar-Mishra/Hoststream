@@ -16,7 +16,6 @@ import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout, ThemeSwitcher } from "@toolpad/core/DashboardLayout";
 import { useDemoRouter } from "@toolpad/core/internal";
 import { UserButton } from "@clerk/clerk-react";
-import SearchBar from "./SearchBar";
 import Setting from "./Setting";
 import { useNavigate } from "react-router-dom";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -29,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import set_user from "../Redux/Actions/SetUser";
 import create_user from "../Redux/Actions/CreateUser";
 import { get_list_static_site } from "../Redux/Actions/GetListStaticSite";
+import SearchBarWithSuggestions from "../Components/SearchBarWithSuggestions"
 
 const NAVIGATION = [
   {
@@ -99,42 +99,6 @@ DemoPageContent.propTypes = {
   pathname: PropTypes.string.isRequired,
 };
 
-function ToolbarActionsSearch() {
-  return (
-    <Stack direction="row">
-      <Tooltip title="Search" enterDelay={1000}>
-        <div>
-          <IconButton
-            type="button"
-            aria-label="search"
-            sx={{
-              display: { xs: "inline", md: "none" },
-            }}
-          >
-            <SearchIcon />
-          </IconButton>
-        </div>
-      </Tooltip>
-      <TextField
-        label="Search"
-        variant="outlined"
-        size="small"
-        slotProps={{
-          input: {
-            endAdornment: (
-              <IconButton type="button" aria-label="search" size="small">
-                <SearchIcon />
-              </IconButton>
-            ),
-            sx: { pr: 0.5 },
-          },
-        }}
-        sx={{ display: { xs: "none", md: "inline-block" }, mr: 1 }}
-      />
-      <ThemeSwitcher />
-    </Stack>
-  );
-}
 
 function SidebarFooter({ mini }) {
   return (
@@ -174,7 +138,7 @@ function Logout() {
 function CombinedToolbarActions() {
   return (
     <Stack direction="row" spacing={2} alignItems="center">
-      <ToolbarActionsSearch />
+      <SearchBarWithSuggestions />
       <Logout />
     </Stack>
   );
