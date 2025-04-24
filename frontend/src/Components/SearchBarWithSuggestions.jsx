@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
+import { set_crspgif } from "../Redux/Actions/SetCrsrpgif.js";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -12,26 +14,12 @@ const SearchBarWithSuggestions = () => {
     const [initialLoad, setInitialLoad] = useState(true);
     const [error, setError] = useState(null);
     const searchRef = useRef(null);
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
     const store_data = useSelector((state) => state.Data);
-    const[allItems,setallItems] = useState( store_data?.UserInfo?.services?.static_site || [  {
-        id: 'v5rbshhcz3jugwesrc0d',
-        website_name: 'ert',
-        site_folder: '/uploads/user_2toHJt9mAE8DdKyaCIu8R91Fjv9/2tqzx',
-        route: '/wlartno9hq',
-        URL: 'http://localhost:88/wlartno9hq',
-        Date: '21/4/2025'
-      },
-      {
-        id: 'shgo1g2kfnp05or65imi',
-        website_name: 'fghy7',
-        site_folder: '/uploads/user_2toHJt9mAE8DdKyaCIu8R91Fjv9/n1vku',
-        route: '/9jzd3ruevv',
-        URL: 'http://localhost:88/9jzd3ruevv',
-        Date: '21/4/2025'
-      }])
-  
+    const [allItems, setallItems] = useState(store_data?.UserInfo?.services?.static_site || [])
+
 
     useEffect(() => {
         console.log("detected the site in searchbar-> :", store_data?.UserInfo?.services?.static_site);
@@ -92,11 +80,18 @@ const SearchBarWithSuggestions = () => {
             handleSuggestionClick(suggestions[activeSuggestion]);
         }
     };
-
+    function setupservicepage(params) {
+        dispatch(set_crspgif(params));
+        navigate("/servicePage");
+    }
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         // Handle search submission
         console.log('Search submitted:', searchQuery);
+        const key = allItems.filter((item) => item.website_name == searchQuery)[0];
+
+        console.log("key=>", key)
+        setupservicepage(key);
         setShowSuggestions(false);
     };
 
