@@ -30,6 +30,11 @@ type domain_maping_type={
     subdomain:String,
     targetURL:String
 }
+type redis_item_type={
+    id:string,
+    route:string,
+    site_folder:string
+}
 export  {
     Data_type,
     user_type,
@@ -38,5 +43,6 @@ export  {
     site_type,
     domain_model_type,
     domain_type,
-    domain_maping_type
+    domain_maping_type,
+    redis_item_type
 }
