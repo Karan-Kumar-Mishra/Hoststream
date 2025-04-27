@@ -29,6 +29,8 @@ import set_user from "../Redux/Actions/SetUser";
 import create_user from "../Redux/Actions/CreateUser";
 import { get_list_static_site } from "../Redux/Actions/GetListStaticSite";
 import SearchBarWithSuggestions from "../Components/SearchBarWithSuggestions"
+import Notification from "./Notification";
+
 
 const NAVIGATION = [
   {
@@ -148,6 +150,7 @@ function DashboardLayoutSlots(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const store_data = useSelector((state) => state.Data);
+
   React.useEffect(() => {
     if (isLoaded) {
       if (isSignedIn) {
@@ -189,6 +192,8 @@ function DashboardLayoutSlots(props) {
       window={demoWindow}
       slots={{ sidebarFooter: <Logout /> }}
     >
+      
+      {store_data.ComponentData.show_error ?? <Notification notify={true} msg={store_data.ComponentData.error_message}/>      }
       <DashboardLayout
         slots={{
           appTitle: CustomAppTitle,

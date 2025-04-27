@@ -5,7 +5,10 @@ import { setup_folder } from "../Redux/Actions/setupFolder";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
-import {set_crspgif} from "../Redux/Actions/SetCrsrpgif.js";
+import { set_crspgif } from "../Redux/Actions/SetCrsrpgif.js";
+import Notification from "./Notification.jsx";
+
+
 export default function SiteForm() {
   const [isDragging, setIsDragging] = useState(false);
   const [files, setFiles] = useState([]); // Store multiple files
@@ -21,10 +24,8 @@ export default function SiteForm() {
   }, [store_data.ComponentData.show_file_loader]);
 
   useEffect(() => {
-    if (store_data.ComponentData.nvgt_to_site===true)
-    {
+    if (store_data.ComponentData.nvgt_to_site === true) {
       console.log("nevigating.. to site page.");
-
       nevigate("/servicePage");
     }
   }, [store_data.ComponentData.nvgt_to_site])
@@ -47,7 +48,7 @@ export default function SiteForm() {
   };
 
   const handleSubmit = () => {
-    if (files.length === 0 || !websiteName || !domainName) {
+    if (files.length === 0 || !websiteName) {
       alert("Please fill all fields and upload at least one file.");
       return;
     }
@@ -65,9 +66,21 @@ export default function SiteForm() {
   useEffect(() => {
     dispatch(setup_folder());
   }, []);
+  useEffect(()=>{
+  console.log("check the state while setup error ",store_data);
+  
+  },[store_data.ComponentData.show_error,store_data.ComponentData.error_message])
 
   return (
     <div className="h-screen   flex items-center justify-center min-h-screen">
+         {store_data.ComponentData.show_error===true  ? <Notification
+          onConfirm={() => setShowAlert(false)} 
+          notify={true}
+          message={store_data.ComponentData.error_message}
+          confirmText="Got it"
+          title="Error"
+          /> : <></>     }
+          
       <Backdrop
         sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
         open={open}
@@ -100,7 +113,7 @@ export default function SiteForm() {
           </div>
 
           {/* Domain Name Input */}
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Domain Name
             </label>
@@ -111,7 +124,7 @@ export default function SiteForm() {
               onChange={(e) => setDomainName(e.target.value)}
               className="w-full px-4 py-3 bg-black text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent placeholder-gray-400"
             />
-          </div>
+          </div> */}
 
           {/* File Upload */}
           <div className="mb-6">

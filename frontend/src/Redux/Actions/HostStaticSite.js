@@ -16,12 +16,21 @@ export const host_static_website = ({ files, websiteName, domainName }) => {
             dispatch({ type: 'NVGT_TO_SITE', payload: false })
             dispatch({ type: 'SHOW_LOADER', payload: true })
             //  console.log("loading start =>", state.Data.ComponentData.show_file_loader);
-
+        
             fetch(import.meta.env.VITE_BACKEND_URL + "/host_site", {
                 method: 'POST',
                 body: formData,
             }).then((response) => {
+                console.log("check response code ",response);
+                if(response.status!=200)
+                {
+                    dispatch({ type: 'SHOW_LOADER', payload: false });
+                    dispatch({type:'SET_ERROR',payload:{msg:"Network response was not ok",show:true}})
+                    throw new Error('Network response was not ok');  
+                }
                 if (!response.ok) {
+                    dispatch({ type: 'SHOW_LOADER', payload: false });
+                    dispatch({type:'SET_ERROR',payload:{msg:"Network response was not ok",show:true}})
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
@@ -37,12 +46,17 @@ export const host_static_website = ({ files, websiteName, domainName }) => {
              //   console.log("checking in thunk nvgt_to_site : ", updatedState.Data.ComponentData.nvgt_to_site);
 
                 return response;
+            }).catch((error)=>{
+                dispatch({ type: 'SHOW_LOADER', payload: false });
+                dispatch({type:'SET_ERROR',payload:{msg:"too much file !",show:true}})
             })
 
 
 
         } catch (error) {
             console.error("Error uploading files:", error);
+            dispatch({ type: 'SHOW_LOADER', payload: false });
+            dispatch({type:'SET_ERROR',payload:{msg:error.msg,show:true}})
         }
     };
 };

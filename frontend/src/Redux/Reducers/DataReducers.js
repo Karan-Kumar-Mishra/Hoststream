@@ -1,7 +1,9 @@
 const initialState = {
   ComponentData: {
      show_file_loader:false,
-     nvgt_to_site:false
+     nvgt_to_site:false,
+     show_error:false,
+     error_message:"none"
   },
   UserInfo: {
     user: {
@@ -44,6 +46,10 @@ const dataReducer = (state = initialState, action) => {
     case "NVGT_TO_SITE":
       state.ComponentData.nvgt_to_site=action.payload;
       return {...state}; 
+      case "SET_ERROR":
+        state.ComponentData.show_error=action.payload.show;
+        state.ComponentData.error_message=action.payload.msg;
+        return {...state}; 
     default:
       return state;
   }

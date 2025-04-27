@@ -1,53 +1,56 @@
-import {  useState } from 'react'
-import { Dialog, DialogBackdrop, DialogPanel } from '@headlessui/react'
-export default function Notification(props) {
-  const [open, setOpen] = useState(props.notify)
+import { useState } from 'react';
 
-  
+const Notification = ({ 
+  title = "Alert", 
+  message = "This is an important message!", 
+  confirmText = "OK", 
+  onConfirm 
+}) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const handleConfirm = () => {
+    setIsOpen(false);
+    if (onConfirm) onConfirm();
+  };
+
+  if (!isOpen) return null;
+
   return (
-    <Dialog open={open} onClose={setOpen} className="relative z-10">
-      <DialogBackdrop
-        transition
-        className="fixed inset-0 bg-slate-400 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Blurred Background */}
+      <div 
+        className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
+        onClick={handleConfirm}
       />
-      <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <DialogPanel
-            transition
-            className="relative transform overflow-hidden rounded-lg bg-slate-900 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-lg data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+      
+      {/* Alert Box */}
+      <div className="relative w-full max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+            {title}
+          </h3>
+        </div>
+        
+        {/* Body */}
+        <div className="px-6 py-4">
+          <p className="text-gray-600 dark:text-gray-300">
+            {message}
+          </p>
+        </div>
+        
+        {/* Footer */}
+        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-700 text-right">
+          <button
+            onClick={handleConfirm}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
-            <div className="dark:bg-slate-900  px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-              <div className="sm:flex sm:items-start">
-               
-                <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <div className="mt-2">
-                    <p className="text-2xl font-extrabold  text-white">
-                      <h1>
-                         Wpm {(props.numberOfWord - props.incuurectWord)===NaN ? 0 : (props.numberOfWord - props.incuurectWord)} {" "}
-                         Row {props.numberOfWord===NaN ?
-                           0 : props.numberOfWord
-                         }{" "}
-                         Worng {" " + props.incuurectWord }
-                       </h1>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="bg-slate-900 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-             
-              <button
-                type="button"
-                data-autofocus
-                onClick={() => setOpen(false)}
-                className="mt-3 inline-flex w-full justify-center rounded-md font-extrabold dark:bg-slate-800 px-3 py-2 text-sm  text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-white hover:text-slate-900 sm:mt-0 sm:w-auto"
-              >
-                Retry
-              </button>
-            </div>
-          </DialogPanel>
+            {confirmText}
+          </button>
         </div>
       </div>
-    </Dialog>
-  )
-}
+    </div>
+  );
+};
+
+export default Notification;
