@@ -33,6 +33,7 @@ type domain_maping_type={
 type redis_item_type={
     id:string,
     route:string,
+    domain:string,
     site_folder:string
 }
 export  {

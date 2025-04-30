@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
 import { set_crspgif } from "../Redux/Actions/SetCrsrpgif.js";
 import Notification from "./Notification.jsx";
+import "../css/DomainInput.css";
 
 
 export default function SiteForm() {
@@ -66,21 +67,21 @@ export default function SiteForm() {
   useEffect(() => {
     dispatch(setup_folder());
   }, []);
-  useEffect(()=>{
-  console.log("check the state while setup error ",store_data);
-  
-  },[store_data.ComponentData.show_error,store_data.ComponentData.error_message])
+  useEffect(() => {
+    console.log("check the state while setup error ", store_data);
+
+  }, [store_data.ComponentData.show_error, store_data.ComponentData.error_message])
 
   return (
     <div className="h-screen   flex items-center justify-center min-h-screen">
-         {store_data.ComponentData.show_error===true  ? <Notification
-          onConfirm={() => setShowAlert(false)} 
-          notify={true}
-          message={store_data.ComponentData.error_message}
-          confirmText="Got it"
-          title="Error"
-          /> : <></>     }
-          
+      {store_data.ComponentData.show_error === true ? <Notification
+        onConfirm={() => setShowAlert(false)}
+        notify={true}
+        message={store_data.ComponentData.error_message}
+        confirmText="Got it"
+        title="Error"
+      /> : <></>}
+
       <Backdrop
         sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
         open={open}
@@ -113,18 +114,34 @@ export default function SiteForm() {
           </div>
 
           {/* Domain Name Input */}
-          {/* <div className="mb-6">
+          <div className="mb-6">
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Domain Name
             </label>
-            <input
+
+            {/* <input
               type="text"
               placeholder="Enter your domain name"
               value={domainName}
               onChange={(e) => setDomainName(e.target.value)}
               className="w-full px-4 py-3 bg-black text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent placeholder-gray-400"
-            />
-          </div> */}
+            /> */}
+
+            <div class="container">
+              <span class="prefix">https://</span>
+              <input
+                type="text"
+                value={domainName}
+                onChange={(e) => setDomainName(e.target.value)}
+                className="myinput-link"
+                placeholder="Site.com" />
+              <span class="link-icon">
+                🔗
+                <span class="tooltip">COPY</span>
+              </span>
+            </div>
+
+          </div>
 
           {/* File Upload */}
           <div className="mb-6">

@@ -20,6 +20,13 @@ export default function route_for_site(site: site_type, user_id: string) {
             }
         });
     });
+   
+
+
+
+
+
+
 }
 /*
   this methode is not efficient 

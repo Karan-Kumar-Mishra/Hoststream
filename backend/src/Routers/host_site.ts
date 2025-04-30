@@ -12,10 +12,12 @@ import { upload } from "../Data/data.js";
 
 export default host_site.post('/', upload.array('files', 20), (req, res) => {
     const route = Services.generate_name(10);
-
+    console.log("check body domain =>",req.body.domainName);
+    
     const new_site = {
         id: Services.generate_name(20),
         website_name: req.body.websiteName,
+        domain_name:req.body.domainName,
         site_folder: `/uploads/${locations.user_folder_loactions}/${locations.user_site_loactions}`,
         route: `/${route}`,
         URL: `http://localhost:88/${route}`,
@@ -24,6 +26,7 @@ export default host_site.post('/', upload.array('files', 20), (req, res) => {
     const new_redis_item = {
         id: new_site.id,
         route: new_site.route,
+        domain:new_site.domain_name,
         site_folder: new_site.site_folder
     }
     Redis.add_item(new_redis_item);
