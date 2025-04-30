@@ -22,18 +22,22 @@ type user_type={
 type UserModel_type = Model<model_type>;
 type domain_model_type=Model<domain_type>;
 type site_type={
-    id:string
-    website_name:string,
+    id: string,
+    website_name: string,
+    domain_name:string,
     site_folder:string,
-    route:string
+    route:string,
+    URL: string,
+    Date: string
 }
 type domain_maping_type={
-    subdomain:String,
-    targetURL:String
+    subdomain:string,
+    targetURL:string
 }
 type redis_item_type={
     id:string,
     route:string,
+    domain:string,
     site_folder:string
 }
 export  {

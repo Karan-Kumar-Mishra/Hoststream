@@ -7,45 +7,47 @@ import { locations } from "../Data/data.js";
 import Redis from "../Redis/index.js";
 import Database from "../Database/index.js";
 import { upload } from "../Data/data.js";
+import { site_type, redis_item_type } from "../Data/types.js";
 
+export default host_site.post('/', upload.array('files', 20), async (req, res, next) => {
+    try {
+        const route = Services.generate_name(10);
+        let new_site: site_type | null = null;
+        let new_redis_item: redis_item_type | null = null;
 
+        const domainAvailable = await Redis.find_domain(req.body.domainName);
+        if (domainAvailable === true) {
+            res.json({ status: "error", error: "domain is not available" });
+            return;
+        }
 
-export default host_site.post('/', upload.array('files', 20), (req, res) => {
-    const route = Services.generate_name(10);
-    console.log("check body domain =>",req.body.domainName);
-    
-    const new_site = {
-        id: Services.generate_name(20),
-        website_name: req.body.websiteName,
-        domain_name:req.body.domainName,
-        site_folder: `/uploads/${locations.user_folder_loactions}/${locations.user_site_loactions}`,
-        route: `/${route}`,
-        URL: `http://localhost:88/${route}`,
-        Date: new Date().toLocaleDateString()
-    }
-    const new_redis_item = {
-        id: new_site.id,
-        route: new_site.route,
-        domain:new_site.domain_name,
-        site_folder: new_site.site_folder
-    }
-    Redis.add_item(new_redis_item);
-    Database.add_sites(new_site, req.body.id).then(() => {
-        Services.route_for_site(new_site, req.body.id);
-        res.send({
+        new_site = {
+            id: Services.generate_name(20),
+            website_name: req.body.websiteName,
+            domain_name: req.body.domainName,
+            site_folder: `/uploads/${locations.user_folder_loactions}/${locations.user_site_loactions}`,
+            route: `/${route}`,
+            URL: `http://localhost:88/${route}`,
+            Date: new Date().toLocaleDateString()
+        };
+
+        new_redis_item = {
+            id: new_site.id,
+            route: new_site.route,
+            domain: new_site.domain_name,
+            site_folder: new_site.site_folder
+        };
+
+        await Redis.add_item(new_redis_item);
+        await Database.add_sites(new_site, req.body.id);
+        await Services.route_for_site(new_site, req.body.id);
+
+        res.status(200).json({
             status: "ok",
             site: new_site
         });
-    })
-    // console.log(new_site);
-    // Services.get_url_with_domain(`http://localhost${new_site.route}`);
-    // Database.add_domain_mapping({
-    //     subdomain:`${Services.generate_name(6)}`,
-    //     targetURL:`http://localhost${new_site.route}`
-    // }).then((ans)=>{
-    //     console.log("ans",ans);
-    // }).catch((err)=>{
-    //     console.log("err",err);
-    // })
-
-})
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: "error", error: "Internal server error" });
+    }
+});

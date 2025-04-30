@@ -5,7 +5,7 @@ import express from "express";
 import path from "path";
 import { site_type } from "../Data/types.js";
 import Redis from "../Redis";
-export default function route_for_site(site: site_type, user_id: string) {
+export default function route_for_site(site: site_type, user_id: String) {
 
     server.use(`${site.route}`, express.static(path.join(__dirname, "..", site.site_folder)));
     server.get(`${site.route}`, (req, res) => {
@@ -22,14 +22,9 @@ export default function route_for_site(site: site_type, user_id: string) {
     });
    
 
-
-
-
-
-
 }
-/*
-  this methode is not efficient 
-  i trying to use the other methode where 
-  i save the context of each site in realtime database 
-*/
+
+
+
+
+

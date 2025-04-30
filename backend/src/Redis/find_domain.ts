@@ -1,7 +1,7 @@
 import { redis_item_type } from "../Data/types";
 import { get_redis } from "../Data/data";
 
-export default async function find_item_by_route(route: string): Promise<redis_item_type | null> {
+export default async function find_domain(domain_key: string) {
     const client = await get_redis();
     const allItems = await client?.LRANGE('WebList', 0, -1);
 
@@ -10,11 +10,11 @@ export default async function find_item_by_route(route: string): Promise<redis_i
     for (const [key, value] of Object.entries(allItems)) {
         const item: redis_item_type = JSON.parse(value);
         
-        console.log("key route: ",route,"item routes: ",item.route," ans-> ",(item.route == route))
-        if (item.route == route ||item.route+'/' == route ) {
-            return item;
+        console.log("key route: ",domain_key,"item routes: ",item.route," ans-> ",(item.route == domain_key))
+        if (item.domain == domain_key ) {
+            return true;
         }
     }
 
-    return null;
+    return false;
 }

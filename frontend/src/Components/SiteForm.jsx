@@ -69,9 +69,10 @@ export default function SiteForm() {
   }, []);
   useEffect(() => {
     console.log("check the state while setup error ", store_data);
-
   }, [store_data.ComponentData.show_error, store_data.ComponentData.error_message])
+ 
 
+ 
   return (
     <div className="h-screen   flex items-center justify-center min-h-screen">
       {store_data.ComponentData.show_error === true ? <Notification
@@ -119,16 +120,10 @@ export default function SiteForm() {
               Domain Name
             </label>
 
-            {/* <input
-              type="text"
-              placeholder="Enter your domain name"
-              value={domainName}
-              onChange={(e) => setDomainName(e.target.value)}
-              className="w-full px-4 py-3 bg-black text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent placeholder-gray-400"
-            /> */}
+          
 
-            <div class="container">
-              <span class="prefix">https://</span>
+            <div className="container">
+              <span className="prefix">https://</span>
               <input
                 type="text"
                 value={domainName}
@@ -137,7 +132,7 @@ export default function SiteForm() {
                 placeholder="Site.com" />
               <span class="link-icon">
                 🔗
-                <span class="tooltip">COPY</span>
+                <span className="tooltip">COPY</span>
               </span>
             </div>
 
