@@ -18,6 +18,7 @@ const initialState = {
       crsrpgif: { // current servicepage information
         id: 1234,
         URL: "https://www.google.com",
+        domain_name:"domain",
         site_name: "site name",
         Date: Date.now()
       }
