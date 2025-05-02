@@ -9,9 +9,15 @@ export default async function find_item_by_route(route: string): Promise<redis_i
 
     for (const [key, value] of Object.entries(allItems)) {
         const item: redis_item_type = JSON.parse(value);
-        
-        console.log("key route: ",route,"item routes: ",item.route," ans-> ",(item.route == route))
-        if (item.route == route ||item.route+'/' == route ) {
+       
+        console.log("route key-> ",route ," route item-> ",item.route)
+        if (item.route == '/' + route || item.route == '/' + route + '/'
+            || item.route ==  route ||
+            item.route+'/' ==  route ||'/'+ item.route+ '/' == route  
+            || item.route ==  route 
+
+        ) {
+            console.log("math the route ",item.route ,",",route)
             return item;
         }
     }

@@ -1,29 +1,37 @@
-import express from "express"
-import Redis from "../Redis";
+import express from "express";
 import path from "path";
+import fs from "fs";
+
 export default function get_site_route(
     req: express.Request,
     res: express.Response,
     next: express.NextFunction
 ) {
     if (req.method === 'GET') {
-        console.log("we are try to geting your route : ", req.path);
-        Redis.find_item(req.path.substring(0, req.path.length)).then((ans) => {
-            console.log(" coming path is :", ans?.site_folder);
-            const filePath = path.join(__dirname, "..", ans?.site_folder || "/default_folder", "/index.html");
-            console.log("final path is :", filePath);
-            
-            res.sendFile(filePath, (err) => {
-                if (err) {
-                    console.error("Error sending file:", err);
-                    next(err); // Pass error to Express error handler
-                }
-            });
-        }).catch((err) => {
-            console.error("Redis error:", err);
-            next(err); // Pass Redis error to Express error handler
+        // Check if the path has a file extension
+        const hasExtension = path.extname(req.path) !== '';
+        
+        let filePath;
+        if (hasExtension) {
+            // If there's an extension, use the requested path directly
+            filePath = path.join(__dirname, "..", req.path);
+        } else {
+            // If no extension, append index.html
+            filePath = path.join(__dirname, "..", req.path, "index.html");
+        }
+
+        console.log("path url is=>", filePath);
+        
+        // Check if file exists before sending
+        fs.access(filePath, fs.constants.F_OK, (err) => {
+            if (err) {
+                // File doesn't exist, pass to next middleware
+                next();
+                return;
+            }
+            res.sendFile(filePath);
         });
     } else {
-        next(); // Continue to next middleware if not GET request
+        next();
     }
 }

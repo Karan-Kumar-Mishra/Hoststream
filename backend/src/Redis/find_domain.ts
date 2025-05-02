@@ -10,8 +10,8 @@ export default async function find_domain(domain_key: string) {
     for (const [key, value] of Object.entries(allItems)) {
         const item: redis_item_type = JSON.parse(value);
         
-        console.log("key route: ",domain_key,"item routes: ",item.route," ans-> ",(item.route == domain_key))
-        if (item.domain == domain_key ) {
+      //  console.log("key route: ",domain_key,"item routes: ",item.route," ans-> ",(item.route == domain_key))
+        if (item.domain == domain_key || item.domain==domain_key.split('/')[1]) {
             return true;
         }
     }

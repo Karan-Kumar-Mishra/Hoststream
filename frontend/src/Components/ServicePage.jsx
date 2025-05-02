@@ -34,10 +34,10 @@ export default function ServicePage() {
           <h1 className="text-4xl font-bold">
             {store_data.UserInfo.other_info.crsrpgif.site_name}
           </h1>
-          <a href={store_data.UserInfo.other_info.crsrpgif.URL} target='_blank' className="text-lg">
+          {/* <a href={store_data.UserInfo.other_info.crsrpgif.URL} target='_blank' className="text-lg">
             {store_data.UserInfo.other_info.crsrpgif.URL}
-          </a>
-          <p>{store_data.UserInfo.other_info.crsrpgif.Date}</p>
+          </a> */}
+          <p>{store_data.UserInfo.other_info.crsrpgif.id}</p>
         </div>
         {/* <PowerButton /> */}
       </div>
@@ -50,7 +50,7 @@ export default function ServicePage() {
         {/* Left Section */}
         <div className="h-64 md:h-96 w-full md:w-1/2 flex items-center justify-center shadow-2xl shadow-blue-400">
           <iframe
-            src={store_data.UserInfo.other_info.crsrpgif.domain_name}
+            src={store_data.UserInfo.other_info.crsrpgif.URL}
             title="website example"
             className="h-full w-full bg-white overflow-hidden"
             style={{ border: "none" }}
@@ -59,10 +59,19 @@ export default function ServicePage() {
 
         {/* Right Section */}
         <div className="h-64 md:h-96 w-full md:w-1/2 flex items-center justify-between text-white text-2xl font-bold flex-col p-20">
-          <h3>{store_data.UserInfo.other_info.crsrpgif.id}</h3>
-          <a href={store_data.UserInfo.other_info.crsrpgif.domain_name} target="_blanck">
-            {store_data.UserInfo.other_info.crsrpgif.domain_name}
-          </a>
+          {/* <h3>{store_data.UserInfo.other_info.crsrpgif.id}</h3> */}
+          <h3>{store_data.UserInfo.other_info.crsrpgif.Date}</h3>
+          <div className=" w-[30rem] h-10 p-1 flex rounded-[0.4rem] gap-3">
+
+            <input
+              className=" w-[25rem] text-[0.9rem] p-[0.2rem] font-[1rem]"
+              type="text" name="" id="" 
+              value={store_data.UserInfo.other_info.crsrpgif.URL}
+              />
+            <p className="cursor-pointer">Copy</p>
+
+          </div>
+          
           <button
             onClick={() => {
               deleteing_site(store_data.UserInfo.other_info.crsrpgif.id);

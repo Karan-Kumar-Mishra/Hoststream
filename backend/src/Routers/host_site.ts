@@ -26,8 +26,8 @@ export default host_site.post('/', upload.array('files', 20), async (req, res, n
             website_name: req.body.websiteName,
             domain_name: req.body.domainName,
             site_folder: `/uploads/${locations.user_folder_loactions}/${locations.user_site_loactions}`,
-            route: `/${route}`,
-            URL: `http://localhost:88/${route}`,
+            route: `/uploads/${locations.user_folder_loactions}/${locations.user_site_loactions}`,
+            URL: `http://localhost:88/uploads/${locations.user_folder_loactions}/${locations.user_site_loactions}/`,
             Date: new Date().toLocaleDateString()
         };
 
@@ -40,7 +40,7 @@ export default host_site.post('/', upload.array('files', 20), async (req, res, n
 
         await Redis.add_item(new_redis_item);
         await Database.add_sites(new_site, req.body.id);
-        await Services.route_for_site(new_site, req.body.id);
+     //   await Services.route_for_site(new_site, req.body.id);
 
         res.status(200).json({
             status: "ok",
