@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import PowerButton from "./PowerButton";
 import "../css/DeleteBtn.css";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ export default function ServicePage() {
   const store_data = useSelector((state) => state.Data);
   const navigate = useNavigate();
   const Dispatch = useDispatch();
+  const URL_ref=useRef(null);
   useEffect(() => {
 
     Dispatch({ type: 'NVGT_TO_SITE', payload: false })
@@ -64,11 +65,24 @@ export default function ServicePage() {
           <div className=" w-[30rem] h-10 p-1 flex rounded-[0.4rem] gap-3">
 
             <input
+             ref={URL_ref}
               className=" w-[25rem] text-[0.9rem] p-[0.2rem] font-[1rem]"
               type="text" name="" id="" 
               value={store_data.UserInfo.other_info.crsrpgif.URL}
+              readOnly
               />
-            <p className="cursor-pointer">Copy</p>
+            <p
+             className="cursor-pointer"
+             onClick={async () => {
+              try {
+                await navigator.clipboard.writeText(URL_ref.current.value);
+               // alert(`URL copied: ${URL_ref.current.value}`);
+              } catch (err) {
+                console.error('Failed to copy: ', err);
+              //  alert('Failed to copy URL');
+              }
+            }}
+           >Copy</p>
 
           </div>
           
