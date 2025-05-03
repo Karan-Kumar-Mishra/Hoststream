@@ -104,6 +104,7 @@ export default function DashBoardItem() {
                 className="setting-item font-extrabold"
                 onClick={() => setupservicepage(item)}
               >
+                {console.log("web items ",item)}
                 <span>{item.website_name}</span>
                 <a href={item.URL} target="_blank" rel="noopener noreferrer">
                   {item.URL}

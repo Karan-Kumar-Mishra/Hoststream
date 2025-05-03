@@ -50,7 +50,19 @@ export default function SiteForm() {
 
   const handleSubmit = () => {
     if (files.length === 0 || !websiteName) {
-      alert("Please fill all fields and upload at least one file.");
+
+      dispatch({
+        type: 'SET_ERROR',
+        payload: {
+          msg: "Please fill all fields and upload at least one file.",
+          show: true
+        }
+      })
+
+      return;
+    }
+    if (domainName.includes('.')) {
+      dispatch({ type: 'SET_ERROR', payload: { msg: "Please enter vaild domain !", show: true } })
       return;
     }
     dispatch(host_static_website({ files, websiteName, domainName }));
@@ -70,9 +82,9 @@ export default function SiteForm() {
   useEffect(() => {
     console.log("check the state while setup error ", store_data);
   }, [store_data.ComponentData.show_error, store_data.ComponentData.error_message])
- 
 
- 
+
+
   return (
     <div className="h-screen   flex items-center justify-center min-h-screen">
       {store_data.ComponentData.show_error === true ? <Notification
@@ -120,7 +132,7 @@ export default function SiteForm() {
               Domain Name
             </label>
 
-          
+
 
             <div className="container">
               <span className="prefix">https://</span>
@@ -129,7 +141,7 @@ export default function SiteForm() {
                 value={domainName}
                 onChange={(e) => setDomainName(e.target.value)}
                 className="myinput-link"
-                placeholder="Site.com" />
+              />
               <span class="link-icon">
                 🔗
                 <span className="tooltip">COPY</span>

@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useUser, RedirectToSignIn } from "@clerk/clerk-react";
 import { useDispatch, useSelector } from "react-redux";
 import { delete_site } from "../Redux/Actions/DeleteSite";
+
 export default function ServicePage() {
   const { isLoaded, isSignedIn, user } = useUser();
   const store_data = useSelector((state) => state.Data);
   const navigate = useNavigate();
   const Dispatch = useDispatch();
-  const URL_ref=useRef(null);
+  const URL_ref = useRef(null);
   useEffect(() => {
 
     Dispatch({ type: 'NVGT_TO_SITE', payload: false })
@@ -35,9 +36,9 @@ export default function ServicePage() {
           <h1 className="text-4xl font-bold">
             {store_data.UserInfo.other_info.crsrpgif.site_name}
           </h1>
-          {/* <a href={store_data.UserInfo.other_info.crsrpgif.URL} target='_blank' className="text-lg">
+          <a href={store_data.UserInfo.other_info.crsrpgif.URL} target='_blank' className="text-lg">
             {store_data.UserInfo.other_info.crsrpgif.URL}
-          </a> */}
+          </a>
           <p>{store_data.UserInfo.other_info.crsrpgif.id}</p>
         </div>
         {/* <PowerButton /> */}
@@ -62,30 +63,9 @@ export default function ServicePage() {
         <div className="h-64 md:h-96 w-full md:w-1/2 flex items-center justify-between text-white text-2xl font-bold flex-col p-20">
           {/* <h3>{store_data.UserInfo.other_info.crsrpgif.id}</h3> */}
           <h3>{store_data.UserInfo.other_info.crsrpgif.Date}</h3>
-          <div className=" w-[30rem] h-10 p-1 flex rounded-[0.4rem] gap-3">
-
-            <input
-             ref={URL_ref}
-              className=" w-[25rem] text-[0.9rem] p-[0.2rem] font-[1rem]"
-              type="text" name="" id="" 
-              value={store_data.UserInfo.other_info.crsrpgif.URL}
-              readOnly
-              />
-            <p
-             className="cursor-pointer"
-             onClick={async () => {
-              try {
-                await navigator.clipboard.writeText(URL_ref.current.value);
-               // alert(`URL copied: ${URL_ref.current.value}`);
-              } catch (err) {
-                console.error('Failed to copy: ', err);
-              //  alert('Failed to copy URL');
-              }
-            }}
-           >Copy</p>
-
-          </div>
-          
+          <a href={store_data.UserInfo.other_info.crsrpgif.domain_name}>
+            {store_data.UserInfo.other_info.crsrpgif.domain_name}
+          </a>
           <button
             onClick={() => {
               deleteing_site(store_data.UserInfo.other_info.crsrpgif.id);
@@ -94,6 +74,7 @@ export default function ServicePage() {
           >
             Delete
           </button>
+
         </div>
       </div>
     </div>
