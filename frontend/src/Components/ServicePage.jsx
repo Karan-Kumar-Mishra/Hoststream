@@ -63,7 +63,7 @@ export default function ServicePage() {
         <div className="h-64 md:h-96 w-full md:w-1/2 flex items-center justify-between text-white text-2xl font-bold flex-col p-20">
           {/* <h3>{store_data.UserInfo.other_info.crsrpgif.id}</h3> */}
           <h3>{store_data.UserInfo.other_info.crsrpgif.Date}</h3>
-          <a href={store_data.UserInfo.other_info.crsrpgif.domain_name}>
+          <a href={store_data.UserInfo.other_info.crsrpgif.domain_name} target='_blank'>
             {store_data.UserInfo.other_info.crsrpgif.domain_name}
           </a>
           <button
