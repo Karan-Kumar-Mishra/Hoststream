@@ -12,7 +12,7 @@ const create_user = () => {
         email: state.Data.UserInfo.user.email
       })
     }
-    let a = await fetch(import.meta.env.VITE_BACKEND_URL + '/create_user', option);
+    let a = await fetch((import.meta.env.VITE_BACKEND_URL || "http://localhost:88") + '/create_user', option);
     let res = await a.json()
     console.log(res);
     

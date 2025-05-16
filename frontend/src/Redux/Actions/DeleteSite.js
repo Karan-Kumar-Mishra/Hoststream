@@ -16,7 +16,7 @@ export const delete_site = (site_id) => {
                     name: state.Data.UserInfo.user.name
                 })
             }
-            let a = await fetch(import.meta.env.VITE_BACKEND_URL + '/delete_site', option);
+            let a = await fetch((import.meta.env.VITE_BACKEND_URL || "http://localhost:88") + '/delete_site', option);
             let res = await a.json()
             if (res.status === "ok") {
                 dispatch({ type: 'DELETE_SITE', payload: res })

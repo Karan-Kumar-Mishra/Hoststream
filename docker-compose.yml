@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # Your existing services
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -38,6 +39,46 @@ services:
       - mongodb
       - redis
     restart: unless-stopped
+    networks:
+      - app-network
+
+  # New services being added
+  proxy-server:
+    image: karankumarmishra/proxy-server:latest
+    container_name: proxy-server
+    ports:
+      - "80:80"
+      - "443:443"  # Adding HTTPS port as well
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  ec2:
+    image: karankumarmishra/ec2:latest
+    container_name: ec2-service
+    ports:
+      - "3001:3000"  # Changed to 3001 to avoid conflict with backend
+    environment:
+      - MONGO_URL=mongodb://admin:admin123@mongodb:27017
+    restart: unless-stopped
+    depends_on:
+      - mongodb
+      - proxy-server
+    networks:
+      - app-network
+
+  frontend:
+    image: karankumarmishra/hoststream-frontend:latest
+    container_name: hoststream-frontend
+    ports:
+      - "5173:5173"
+    restart: unless-stopped
+    depends_on:
+      - backend
+      - ec2
+      - proxy-server
     networks:
       - app-network
 

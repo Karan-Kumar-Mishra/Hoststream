@@ -20,7 +20,7 @@ COPY tsconfig.json ./tsconfig.json
 RUN npm run build
 
 # Expose the port your app runs on
-EXPOSE 88
+EXPOSE 80
 
 # Run the compiled app
 CMD ["node", "dist/server.js"]

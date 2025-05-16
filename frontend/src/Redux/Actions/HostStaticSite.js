@@ -18,7 +18,7 @@ export const host_static_website = ({ files, websiteName, domainName }) => {
             dispatch({ type: 'SHOW_LOADER', payload: true })
             //  console.log("loading start =>", state.Data.ComponentData.show_file_loader);
 
-            fetch(import.meta.env.VITE_BACKEND_URL + "/host_site", {
+            fetch((import.meta.env.VITE_BACKEND_URL || "http://localhost:88") + "/host_site", {
                 method: 'POST',
                 body: formData,
             }).then((response) => {

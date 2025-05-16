@@ -14,7 +14,7 @@ export const get_list_static_site = () => {
                     id: state.Data.UserInfo.user.id,
                 })
             }
-            let a = await fetch(import.meta.env.VITE_BACKEND_URL + '/get_sites_list', option);
+            let a = await fetch((import.meta.env.VITE_BACKEND_URL || "http://localhost:88") + '/get_sites_list', option);
             let res = await a.json()
            
  
