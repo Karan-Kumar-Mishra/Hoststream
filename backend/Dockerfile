@@ -1,36 +1,26 @@
-# Builder stage
-FROM node:22-bullseye as builder
+# Use official Node.js image
+FROM node:18-alpine
 
+# Set working directory
 WORKDIR /app
+
+# Copy package.json and package-lock.json
 COPY package*.json ./
-COPY tsconfig*.json ./
-RUN npm install --include=dev
-COPY . .
+
+# Install dependencies
+RUN npm install
+
+# Copy only specific directories/files needed for build
+COPY src ./src
+COPY tsconfig.json ./tsconfig.json
+
+# Add any other files/directories your build needs
+
+# Build TypeScript to JavaScript
 RUN npm run build
 
-# Production stage
-FROM node:22-bullseye
+# Expose the port your app runs on
+EXPOSE 3000
 
-# Create app directory and set proper permissions
-RUN mkdir -p /app/dist/uploads && \
-    chown -R node:node /app
-
-WORKDIR /app
-
-# Copy package files and install production deps
-COPY --chown=node:node package*.json ./
-RUN npm install --only=production
-
-# Copy built files from builder
-COPY --from=builder --chown=node:node /app/dist ./dist
-
-# Ensure uploads directory exists and is writable
-RUN mkdir -p /app/dist/uploads && \
-    chown node:node /app/dist/uploads && \
-    chmod 755 /app/dist/uploads
-
-USER node
-
-EXPOSE 88
-
+# Run the compiled app
 CMD ["node", "dist/server.js"]
