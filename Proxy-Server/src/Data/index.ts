@@ -10,7 +10,7 @@ async function connect_redis() {
     if (!client) {
         client = createClient({
             url: process.env.REDIS_URL || 'redis://redis:6379', // Use service name
-            password: process.env.REDIS_PASSWORD || 'redispass123' // Add password
+          
         });
 
         client.on('error', (err: Error) => {
