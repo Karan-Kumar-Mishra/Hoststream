@@ -28,6 +28,8 @@ services:
       - "88:88"
     networks:
       - app-network
+    depends_on:
+      - redis
 
   proxy-server:
     image: karankumarmishra/proxy-server:latest
@@ -40,7 +42,7 @@ services:
   frontend:
     image: karankumarmishra/hoststream-frontend:latest
     ports:
-      - "5173:5173"
+      - "3000:3000"
     depends_on:
       - proxy-server
       - backend
