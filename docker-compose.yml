@@ -1,90 +1,55 @@
 version: '3.8'
 
 services:
-  # Your existing services
   mongodb:
     image: mongo:latest
-    container_name: mongodb
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin123
-    volumes:
-      - mongodb_data:/data/db
-    restart: unless-stopped
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
 
   redis:
     image: redis:latest
-    container_name: redis
     ports:
       - "6379:6379"
+    command: redis-server --requirepass redispass123 --appendonly yes
     volumes:
       - redis_data:/data
-    restart: unless-stopped
     networks:
       - app-network
+    depends_on:
+      - mongodb
 
   backend:
     image: karankumarmishra/hoststream-backend:latest
-    container_name: backend
     ports:
-      - "3000:3000"
-    environment:
-      - REDIS_URL=redis://redis:6379
-      - MONGO_URL=mongodb://admin:admin123@mongodb:27017
-    depends_on:
-      - mongodb
-      - redis
-    restart: unless-stopped
+      - "88:88"
     networks:
       - app-network
 
-  # New services being added
   proxy-server:
     image: karankumarmishra/proxy-server:latest
-    container_name: proxy-server
     ports:
       - "80:80"
-      - "443:443"  # Adding HTTPS port as well
-    restart: unless-stopped
     depends_on:
       - backend
     networks:
       - app-network
-
-  ec2:
-    image: karankumarmishra/ec2:latest
-    container_name: ec2-service
-    ports:
-      - "3001:3000"  # Changed to 3001 to avoid conflict with backend
-    environment:
-      - MONGO_URL=mongodb://admin:admin123@mongodb:27017
-    restart: unless-stopped
-    depends_on:
-      - mongodb
-      - proxy-server
-    networks:
-      - app-network
-
   frontend:
     image: karankumarmishra/hoststream-frontend:latest
-    container_name: hoststream-frontend
     ports:
       - "5173:5173"
-    restart: unless-stopped
     depends_on:
-      - backend
-      - ec2
       - proxy-server
+      - backend
     networks:
       - app-network
 
 volumes:
-  mongodb_data:
   redis_data:
+  mongodb_data:
 
 networks:
   app-network:

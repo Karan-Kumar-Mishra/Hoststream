@@ -1,25 +1,26 @@
 import { createClient, RedisClientType } from 'redis';
-let Rousts:[]=[]
+let Rousts: [] = []
 const subdomainMappings = [
     { subdomain: 'a1.localhost', targetURL: 'https://www.google.com' }, // Backend Server 1
     { subdomain: 'mm.localhost', targetURL: 'https://karan-kumar-mishra.github.io/Portfolio/' }, // Backend Server 2
 ];
 let client: RedisClientType | undefined;
 
-async function connect_redis(){
+async function connect_redis() {
     if (!client) {
         client = createClient({
-            url: process.env.REDIS_URL || 'redis://localhost:6379'
+            url: process.env.REDIS_URL || 'redis://redis:6379', // Use service name
+            password: process.env.REDIS_PASSWORD || 'redispass123' // Add password
         });
-        
+
         client.on('error', (err: Error) => {
             console.log('Redis Client Error', err);
         });
-        
+
         client.on('connect', () => {
             console.log("redis is connected..");
         });
-        
+
         await client.connect();
     }
     return client;

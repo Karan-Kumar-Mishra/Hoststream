@@ -46,20 +46,21 @@ const upload = multer({
 });
 let client: RedisClientType | undefined;
 
-async function connect_redis(){
+async function connect_redis() {
     if (!client) {
         client = createClient({
-             url: process.env.REDIS_URL || 'redis://localhost:6379'
+            url: process.env.REDIS_URL || 'redis://redis:6379', // Use service name
+           
         });
-        
+
         client.on('error', (err: Error) => {
             console.log('Redis Client Error', err);
         });
-        
+
         client.on('connect', () => {
             console.log("redis is connected..");
         });
-        
+
         await client.connect();
     }
     return client;
