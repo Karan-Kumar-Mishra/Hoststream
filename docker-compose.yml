@@ -24,6 +24,9 @@ services:
 
   backend:
     image: karankumarmishra/hoststream-backend:latest
+    environment:
+      - REDIS_PASSWORD="88z3kfQ2wWphYpG7APAClHapzC6jF0A7"
+      - REDIS_USER="default"
     ports:
       - "88:88"
     networks:

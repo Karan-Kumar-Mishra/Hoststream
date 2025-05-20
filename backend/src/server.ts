@@ -37,5 +37,5 @@ server.use('/setup_folder', Routers.setup_folder);
 
 const port = process.env.PORT || 88;
 server.listen(port, () => {
-    console.log(`Server is running on ${port} ....`);
+    console.log(`Backend Server is running on ${port} ....`);
 })
