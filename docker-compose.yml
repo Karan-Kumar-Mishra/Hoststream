@@ -15,8 +15,8 @@ services:
     ports:
       - "6379:6379"
     command: redis-server --appendonly yes 
-    volumes:
-      - redis_data:/data
+    # volumes:
+    #   - redis_data:/data
     networks:
       - app-network
     depends_on:
@@ -24,9 +24,6 @@ services:
 
   backend:
     image: karankumarmishra/hoststream-backend:latest
-    environment:
-      - REDIS_PASSWORD="88z3kfQ2wWphYpG7APAClHapzC6jF0A7"
-      - REDIS_USER="default"
     ports:
       - "88:88"
     networks:
@@ -52,9 +49,9 @@ services:
     networks:
       - app-network
 
-volumes:
-  redis_data:
-  mongodb_data:
+# volumes:
+#   redis_data:
+#   mongodb_data:
 
 networks:
   app-network:
