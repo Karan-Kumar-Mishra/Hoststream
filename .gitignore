@@ -4,8 +4,10 @@
 # Ignore backend/dist
 /backend/dist/
 
-# Ignore .env files in all relevant directories
-# /backend/.env
-# /frontend/.env
-# /Proxy-Server/.env
-# /Proxy-Server/dist/
+Ignore .env files in all relevant directories
+/backend/.env
+/frontend/.env
+/Proxy-Server/.env
+/Proxy-Server/dist/
+/backend/dist/
+/frontend/dist/
