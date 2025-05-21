@@ -21,8 +21,8 @@ export default async function proxy_route(req: express.Request, res: express.Res
             // Properly trim trailing slash from ans.route
             const baseRoute = ans.route.endsWith('/') ? ans.route.slice(0, -1) : ans.route;
             console.log("base route=> ",baseRoute)
-            const target = (process.env.BACKEND_URL || "http://localhost:88").concat(baseRoute);
-            console.log("target route=> ",target)    
+            const target = (process.env.BACKEND_URL || "http://127.0.0.1:88").concat(baseRoute);
+      
             console.log('Proxying to =>', target + req.url);
 
             proxy.web(req, res, {
