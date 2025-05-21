@@ -4,18 +4,18 @@ FROM node:18-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY . .
+# Copy only package files first for better layer caching
+COPY package.json package-lock.json* ./
 
 # Install dependencies
 RUN npm install
 
-# Copy only specific directories/files needed for build
+# Copy only necessary files for build
+COPY src/ ./src/
+COPY tsconfig.json ./
+COPY .env ./
 
 
-# Add any other files/directories your build needs
-
-# Build TypeScript to JavaScript
 RUN npm run build
 
 # Expose the port your app runs on

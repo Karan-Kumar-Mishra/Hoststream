@@ -14,7 +14,7 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
-    command: redis-server --requirepass redispass123 --appendonly yes
+    command: redis-server --appendonly yes 
     volumes:
       - redis_data:/data
     networks:
