@@ -20,7 +20,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <HeroUIProvider>
     <ToastProvider />
       <App />
-
     </HeroUIProvider>
     </ClerkProvider>
   </Provider>

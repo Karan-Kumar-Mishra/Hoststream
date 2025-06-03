@@ -1,0 +1,14 @@
+FROM node:18-alpine
+WORKDIR /app
+
+# Copy package files and install deps
+COPY . .
+RUN npm install && npm install --save-dev typescript nodemon
+
+# Copy config files
+# Important Nodemon settings for Docker
+ENV CHOKIDAR_USEPOLLING=true
+ENV CHOKIDAR_INTERVAL=500
+
+EXPOSE 88
+CMD ["npx", "nodemon", "--watch", "src", "--ext", "ts", "--exec", "npx tsc && node dist/server.js"]

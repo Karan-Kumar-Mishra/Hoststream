@@ -19,21 +19,16 @@ server.use(cors());
 Database.connectdb();
 connect_redis();
 
-
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(express.json());
 server.use(Middleware.get_site_route);
-
 
 server.use('/create_user', Routers.create_user);
 server.use('/host_site', Routers.host_site);
 server.use('/get_sites_list', Routers.get_sites_list);
 server.use('/delete_site', Routers.delete_site);
 server.use('/setup_folder', Routers.setup_folder);
-
-
-
 
 const port = process.env.PORT || 88;
 server.listen(port, () => {

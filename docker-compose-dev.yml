@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    image: backend-dev
+    network_mode: "host" 
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+
+  proxy-server:
+    image: proxy-dev
+    network_mode: "host"  
+    depends_on:
+      - backend
+    volumes:
+      - ./Proxy-Server:/app
+      - /app/node_modules
+
+
+  frontend:
+    image: frontend-dev
+    network_mode: "host" 
+    depends_on:
+      - proxy-server
+      - backend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules

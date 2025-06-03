@@ -1,0 +1,5 @@
+ comamnd for backend services
+ docker run -it --network=host -v $(pwd):/app -v /app/node_modules backend-dev
+ comamnd for fortend services
+
+ docker run -it --network=host -v $(pwd):/app -v /app/node_modules -e CHOKIDAR_USEPOLLING=true  frontend-dev

@@ -19,7 +19,7 @@ COPY .env ./
 RUN npm run build
 
 # Expose the port your app runs on
-EXPOSE 88
+EXPOSE 88  16354
 
 # Run the compiled app
 CMD ["node", "dist/server.js"]
