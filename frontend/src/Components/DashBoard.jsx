@@ -28,9 +28,11 @@ import { useDispatch, useSelector } from "react-redux";
 import set_user from "../Redux/Actions/SetUser";
 import create_user from "../Redux/Actions/CreateUser";
 import { get_list_static_site } from "../Redux/Actions/GetListStaticSite";
+import Ec2 from "./Ec2";
 import SearchBarWithSuggestions from "../Components/SearchBarWithSuggestions"
 import Notification from "./Notification";
-
+import ImportantDevicesIcon from '@mui/icons-material/ImportantDevices';
+import InfoIcon from '@mui/icons-material/Info';
 
 const NAVIGATION = [
   {
@@ -42,11 +44,7 @@ const NAVIGATION = [
     title: "Dashboard",
     icon: <DashboardIcon />,
   },
-  // {
-  //   segment: "setting",
-  //   title: "Setting",
-  //   icon: <SettingsIcon />,
-  // },
+
   {
     segment: "services",
     title: "Services",
@@ -57,7 +55,17 @@ const NAVIGATION = [
         title: "Static site",
         icon: <WebAssetIcon />,
       },
+      {
+        segment: "ec2",
+        title: "EC2",
+        icon: <ImportantDevicesIcon />,
+      },
     ],
+  },
+  {
+    segment: "about",
+    title: "About",
+    icon: <InfoIcon />,
   },
 ];
 
@@ -93,6 +101,7 @@ function DemoPageContent({ pathname }) {
       {pathname === "/dashboard" && <DashBoardItem />}
       {pathname === "/setting" && <Setting />}
       {pathname === "/services/static_site" && <SiteForm />}
+      {pathname === "/services/ec2" && <Ec2 />}
     </Box>
   );
 }
@@ -192,8 +201,8 @@ function DashboardLayoutSlots(props) {
       window={demoWindow}
       slots={{ sidebarFooter: <Logout /> }}
     >
-      
-      {store_data.ComponentData.show_error ?? <Notification notify={true} msg={store_data.ComponentData.error_message}/>      }
+
+      {store_data.ComponentData.show_error ?? <Notification notify={true} msg={store_data.ComponentData.error_message} />}
       <DashboardLayout
         slots={{
           appTitle: CustomAppTitle,
