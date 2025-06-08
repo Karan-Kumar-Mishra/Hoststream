@@ -1,31 +1,36 @@
 import Docker from 'dockerode';
 
-
 export default async function start_bash_container() {
-    console.log("try to run the docker base conatiner");
     const docker = new Docker({
-            socketPath: '/var/run/docker.sock' // or your custom HTTPS config
-        });
+        socketPath: '/var/run/docker.sock'
+    });
+    
+    try {
         const container = await docker.createContainer({
-            Image: 'node:18-alpine',
-          //  Cmd: ['node', '-e', 'console.log("Hello from container")'],
-            name: 'base_conatiner',
+            Image: 'traefik:v3',
+            name: 'traefik',  // Add container name to match your working command
+            AttachStdin: false,
+            AttachStdout: false,
+            AttachStderr: false,
+            Tty: false,
+            OpenStdin: false,
             HostConfig: {
-                // AutoRemove: true, // Automatically remove when stopped
                 PortBindings: {
                     '8080/tcp': [{ HostPort: '8080' }],
                     '80/tcp': [{ HostPort: '80' }]
                 },
                 Binds: [
-                
                     `${process.cwd()}/traefik.yml:/etc/traefik/traefik.yml`,
                     '/var/run/docker.sock:/var/run/docker.sock',
                 ],
-                NetworkMode: 'hoststream-network'
-            },
-            Env: [
-                'NODE_ENV=development'
-            ]
+                NetworkMode: 'web'  // Changed to match your working command
+            }
         });
-       await  container.start();
+        
+        await container.start();
+        console.log("Traefik container started successfully");
+        console.log("path is =>" ,`${process.cwd()}/traefik.yml`)
+    } catch (error) {
+        console.error("Error starting Traefik container:", error);
+    }
 }

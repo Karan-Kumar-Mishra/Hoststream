@@ -14,7 +14,10 @@ dotenv.config({
 const server= express();
 server.use(cors());
 
+server.use('/create',Router.create_container);
 server.use('/start',Router.start_container);
+server.use('/stop',Router.start_container);
+server.use('/delete',Router.delete_container);
 
 
 

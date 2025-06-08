@@ -10,7 +10,7 @@ async function create_container() {
         socketPath: '/var/run/docker.sock' // or your custom HTTPS config
     });
     const container = await docker.createContainer({
-        Image: 'node:18-alpine',
+        Image: 'wssh',
         Cmd: ['node', '-e', 'console.log("Hello from container")'],
         name: 'my-node-container',
         HostConfig: {
@@ -25,9 +25,6 @@ async function create_container() {
             ],
             NetworkMode: 'hoststream-network'
         },
-        Env: [
-            'NODE_ENV=development'
-        ]
     });
     return container.id;
 }

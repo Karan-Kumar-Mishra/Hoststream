@@ -16,7 +16,10 @@ dotenv_1.default.config({
 });
 const server = (0, express_1.default)();
 server.use((0, cors_1.default)());
+server.use('/create', Router_1.default.create_container);
 server.use('/start', Router_1.default.start_container);
+server.use('/stop', Router_1.default.start_container);
+server.use('/delete', Router_1.default.delete_container);
 const port = process.env.PORT || 77;
 server.listen(port, () => {
     console.log(`EC2 Server is running on ${port} ....`);
