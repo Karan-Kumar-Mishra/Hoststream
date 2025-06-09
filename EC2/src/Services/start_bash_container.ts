@@ -1,4 +1,5 @@
 import Docker from 'dockerode';
+import path from 'path';
 
 export default async function start_bash_container() {
     const docker = new Docker({
@@ -8,28 +9,33 @@ export default async function start_bash_container() {
     try {
         const container = await docker.createContainer({
             Image: 'traefik:v3',
-            name: 'traefik',  // Add container name to match your working command
+            name: 'traefik',  
             AttachStdin: false,
             AttachStdout: false,
             AttachStderr: false,
             Tty: false,
             OpenStdin: false,
+            ExposedPorts: {
+                '80/tcp': {},
+                '8080/tcp': {}
+            },
             HostConfig: {
                 PortBindings: {
                     '8080/tcp': [{ HostPort: '8080' }],
                     '80/tcp': [{ HostPort: '80' }]
                 },
                 Binds: [
-                    `${process.cwd()}/traefik.yml:/etc/traefik/traefik.yml`,
+                    `${path.resolve(__dirname)}/traefik.yml:/etc/traefik/traefik.yml`,
                     '/var/run/docker.sock:/var/run/docker.sock',
                 ],
-                NetworkMode: 'web'  // Changed to match your working command
+                NetworkMode: 'hoststream-network' 
             }
         });
         
         await container.start();
+        
         console.log("Traefik container started successfully");
-        console.log("path is =>" ,`${process.cwd()}/traefik.yml`)
+
     } catch (error) {
         console.error("Error starting Traefik container:", error);
     }

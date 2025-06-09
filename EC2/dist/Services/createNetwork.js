@@ -5,12 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = createNetwork;
 const dockerode_1 = __importDefault(require("dockerode"));
+const remove_network_1 = __importDefault(require("./remove_network"));
 async function createNetwork() {
     const docker = new dockerode_1.default();
+    await (0, remove_network_1.default)('hoststream-network');
     try {
         const networkOptions = {
             Name: 'hoststream-network',
-            Driver: 'bridge', // Default is 'bridge', other options: 'overlay', 'host', 'none'
+            Driver: 'bridge',
             CheckDuplicate: true,
             Internal: false,
             Attachable: true,
