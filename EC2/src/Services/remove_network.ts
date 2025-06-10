@@ -5,22 +5,35 @@ export default async function remove_network(network: string) {
         const docker = new Docker({
             socketPath: '/var/run/docker.sock'
         });
-        const containers = await docker.listContainers();
-        const containerToRemove = containers.find(container =>
-            container.Names.some(name => name.includes(network))
-        );
-        if (containerToRemove) {
-            const container = docker.getContainer(containerToRemove.Id);
-            if (containerToRemove.State === 'running') {
-                await container.stop();
+
+
+        const networks = await docker.listNetworks();
+        const networkToRemove = networks.find(n => n.Name === network);
+
+        if (networkToRemove) {
+            const dockerNetwork = docker.getNetwork(networkToRemove.Id);
+
+
+            const networkInfo = await dockerNetwork.inspect();
+
+
+            const containerIds = Object.keys(networkInfo.Containers || {});
+
+            for (const containerId of containerIds) {
+                await dockerNetwork.disconnect({
+                    Container: containerId,
+                    Force: true
+                });
             }
-            await container.remove();
-            console.log(`Successfully removed container ${containerToRemove.Names[0]}`);
+
+
+            await dockerNetwork.remove();
+            console.log(`Successfully removed network "${network}"`);
         } else {
-            console.log(`No container found with network name containing "${network}"`);
+            console.log(`No network found with name "${network}"`);
         }
     } catch (error) {
-        console.error(`Error removing container: ${error}`);
+        console.error(`Error removing network: ${error}`);
         throw error;
     }
 }

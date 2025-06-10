@@ -1,11 +1,13 @@
 import Docker from 'dockerode';
 import path from 'path';
-
+import get_ID from './get_Id';
+import remove_container from './remove_container';
 export default async function start_bash_container() {
     const docker = new Docker({
         socketPath: '/var/run/docker.sock'
     });
-    
+    const ID = await get_ID('traefik');
+    await remove_container(ID || 'none');
     try {
         const container = await docker.createContainer({
             Image: 'traefik:v3',
@@ -33,7 +35,6 @@ export default async function start_bash_container() {
         });
         
         await container.start();
-        
         console.log("Traefik container started successfully");
 
     } catch (error) {

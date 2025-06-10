@@ -6,10 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = start_bash_container;
 const dockerode_1 = __importDefault(require("dockerode"));
 const path_1 = __importDefault(require("path"));
+const get_Id_1 = __importDefault(require("./get_Id"));
+const remove_container_1 = __importDefault(require("./remove_container"));
 async function start_bash_container() {
     const docker = new dockerode_1.default({
         socketPath: '/var/run/docker.sock'
     });
+    const ID = await (0, get_Id_1.default)('traefik');
+    await (0, remove_container_1.default)(ID || 'none');
     try {
         const container = await docker.createContainer({
             Image: 'traefik:v3',
