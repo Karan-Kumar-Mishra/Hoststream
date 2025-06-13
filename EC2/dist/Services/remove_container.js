@@ -7,7 +7,7 @@ exports.default = remove_container;
 const Data_1 = __importDefault(require("../Data"));
 async function remove_container(id) {
     try {
-        const container = Data_1.default.docker.docker.getContainer(id);
+        const container = await Data_1.default.docker.docker.getContainer(id);
         await container.stop();
         await container.remove();
         console.log(`Container ${id} delete successfully.`);

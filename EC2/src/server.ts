@@ -14,6 +14,9 @@ dotenv.config({
 const server= express();
 server.use(cors());
 
+server.use('/',(req,res)=>{
+  res.send("ok")
+});
 server.use('/create',Router.create_container);
 server.use('/start',Router.start_container);
 server.use('/stop',Router.start_container);

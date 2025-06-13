@@ -16,6 +16,9 @@ dotenv_1.default.config({
 });
 const server = (0, express_1.default)();
 server.use((0, cors_1.default)());
+server.use('/', (req, res) => {
+    res.send("ok");
+});
 server.use('/create', Router_1.default.create_container);
 server.use('/start', Router_1.default.start_container);
 server.use('/stop', Router_1.default.start_container);

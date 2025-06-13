@@ -1,7 +1,7 @@
 import Data from "../Data";
 export default async function remove_container(id: string) {
     try {
-        const container = Data.docker.docker.getContainer(id);
+        const container = await Data.docker.docker.getContainer(id);
         await container.stop();
         await container.remove();
         console.log(`Container ${id} delete successfully.`);

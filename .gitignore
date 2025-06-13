@@ -11,4 +11,5 @@ Ignore .env files in all relevant directories
 /Proxy-Server/dist/
 /backend/dist/
 /frontend/dist/
+/EC2/dist/
 /key.txt
