@@ -20,6 +20,7 @@ export default async function init() {
     else {
         await pull_image('karankumarmishra/wssh:latest');
         await pull_image('traefik');
+        await pull_image('karankumarmishra/wssh');
         console.log("images pullImage ready for container deployment ")
     }
     start_bash_container();

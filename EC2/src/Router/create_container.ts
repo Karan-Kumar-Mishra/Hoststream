@@ -9,17 +9,15 @@ export default creat_container.post('/', (req, res) => {
         password: req.body.password,
         ports: req.body.ports
     }
-    res.json({
-        status: "ok"
+  
+    Services.create_container(new_container).then((ans) => {
+        return ans;
+    }).then((id) => {
+        Services.start_container(id).then(() => {
+           res.json({
+            status:"ok"
+           })
+        })
     })
-    // Services.create_container(new_container).then((ans) => {
-    //     return ans;
-    // }).then((id) => {
-    //     Services.start_container(id).then(() => {
-    //        res.json({
-    //         status:"ok"
-    //        })
-    //     })
-    // })
 
 }) 

@@ -18,7 +18,7 @@ export default async function create_container(new_container_info: user_containe
     };
 
     const container = await docker.createContainer({
-        Image: 'wssh',
+        Image: 'karankumarmishra/wssh',
         name: new_container_info.name,
         AttachStdin: false,
         AttachStdout: false,

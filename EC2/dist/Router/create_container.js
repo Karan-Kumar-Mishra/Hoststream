@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const Services_1 = __importDefault(require("../Services"));
 const creat_container = express_1.default.Router();
 exports.default = creat_container.post('/', (req, res) => {
     const new_container = {
@@ -12,16 +13,13 @@ exports.default = creat_container.post('/', (req, res) => {
         password: req.body.password,
         ports: req.body.ports
     };
-    res.json({
-        status: "ok"
+    Services_1.default.create_container(new_container).then((ans) => {
+        return ans;
+    }).then((id) => {
+        Services_1.default.start_container(id).then(() => {
+            res.json({
+                status: "ok"
+            });
+        });
     });
-    // Services.create_container(new_container).then((ans) => {
-    //     return ans;
-    // }).then((id) => {
-    //     Services.start_container(id).then(() => {
-    //        res.json({
-    //         status:"ok"
-    //        })
-    //     })
-    // })
 });

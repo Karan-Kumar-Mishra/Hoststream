@@ -16,7 +16,7 @@ async function start_bash_container() {
     await (0, remove_container_1.default)(ID || 'none');
     try {
         const container = await docker.createContainer({
-            Image: 'traefik:v3',
+            Image: 'traefik',
             name: 'traefik',
             AttachStdin: false,
             AttachStdout: false,

@@ -19,7 +19,7 @@ async function create_container(new_container_info) {
         [`traefik.http.middlewares.wssh-ws.headers.customresponseheaders.Sec-WebSocket-Accept`]: '*' // Removed extra '='
     };
     const container = await docker.createContainer({
-        Image: 'wssh',
+        Image: 'karankumarmishra/wssh',
         name: new_container_info.name,
         AttachStdin: false,
         AttachStdout: false,
