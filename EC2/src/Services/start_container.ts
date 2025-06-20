@@ -6,5 +6,6 @@ export default async function start_container(id: string) {
         console.log(`Container ${id} start successfully.`);
     } catch (error) {
         console.log("error while try to start the container !");
+        console.log(error)
     }
 }

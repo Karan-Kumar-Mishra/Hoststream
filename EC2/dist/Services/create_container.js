@@ -11,33 +11,24 @@ async function create_container(new_container_info) {
     });
     const labels = {
         'traefik.enable': 'true',
+        // Router configuration
         [`traefik.http.routers.${new_container_info.name}.entrypoints`]: 'hoststream-network',
-        [`traefik.http.services.${new_container_info.name}.loadbalancer.server.port`]: '8888', // Changed from number to string
-        [`traefik.http.routers.${new_container_info.name}.middlewares`]: 'karankumarmishra/wssh-network-headers',
-        [`traefik.http.middlewares.karankumarmishra/wssh-network-headers.headers.customrequestheaders.X-Real-IP`]: 'remote_addr',
-        [`traefik.http.routers.${new_container_info.name}-ws.middlewares`]: 'karankumarmishra/wssh-ws',
-        [`traefik.http.middlewares.karankumarmishra/wssh-ws.headers.customresponseheaders.Sec-WebSocket-Accept`]: '*' // Removed extra '='
+        // Service configuration
+        [`traefik.http.services.${new_container_info.name}.loadbalancer.server.port`]: '8888',
+        // Middlewares
+        [`traefik.http.routers.${new_container_info.name}.middlewares`]: 'wssh-headers',
+        [`traefik.http.middlewares.wssh-headers.headers.customrequestheaders.X-Real-IP`]: 'remote_addr',
+        // WebSocket configuration
+        [`traefik.http.routers.${new_container_info.name}.middlewares`]: 'wssh-ws',
+        [`traefik.http.middlewares.wssh-ws.headers.customresponseheaders.Sec-WebSocket-Accept`]: '*'
     };
     const container = await docker.createContainer({
         Image: 'karankumarmishra/wssh',
         name: new_container_info.name,
-        // AttachStdin: false,
-        // AttachStdout: false,
-        // AttachStderr: false,
-        // Tty: false,
-        // OpenStdin: false,
-        // ExposedPorts: {
-        //     '80/tcp': {},
-        //     '8080/tcp': {}
-        // },
-        // HostConfig: {
-        //     PortBindings: {
-        //         '8080/tcp': [{ HostPort: '8080' }],
-        //         '80/tcp': [{ HostPort: '80' }]
-        //     },
-        //     NetworkMode: 'hoststream-network'
-        // },
-        Labels: labels, // Using the properly typed labels object
+        HostConfig: {
+            NetworkMode: 'hoststream-network'
+        },
+        Labels: labels,
         Env: [
             `SSH_USERNAME=${new_container_info.username || 'user'}`,
             `SSH_PASSWORD=${new_container_info.password || "1234"}`,

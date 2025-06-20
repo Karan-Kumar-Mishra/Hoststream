@@ -1,6 +1,6 @@
 # Entry points configuration
 entryPoints:
-  web:
+  hoststream-network:
     address: ":80"
   websecure:
     address: ":443"
