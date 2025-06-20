@@ -18,7 +18,8 @@ exports.default = creat_container.post('/', (req, res) => {
     }).then((id) => {
         Services_1.default.start_container(id).then(() => {
             res.json({
-                status: "ok"
+                status: "ok",
+                id: id
             });
         });
     });

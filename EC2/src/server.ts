@@ -24,7 +24,7 @@ server.get('/',(req,res)=>{
 
 server.use('/create',Router.create_container);
 server.use('/start',Router.start_container);
-server.use('/stop',Router.start_container);
+server.use('/stop',Router.stop_container);
 server.use('/delete',Router.delete_container);
 
 const port = process.env.PORT || 81;

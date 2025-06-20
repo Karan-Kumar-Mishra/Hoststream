@@ -25,9 +25,6 @@ async function createNetwork() {
                 //     Gateway: '172.28.0.1'
                 //   }
                 ]
-            },
-            Labels: {
-                'com.example.description': 'Custom network for my app'
             }
         };
         // Create the network

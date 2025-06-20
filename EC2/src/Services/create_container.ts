@@ -11,20 +11,20 @@ export default async function create_container(new_container_info: user_containe
         'traefik.enable': 'true',
         [`traefik.http.routers.${new_container_info.name}.entrypoints`]: 'hoststream-network',
         [`traefik.http.services.${new_container_info.name}.loadbalancer.server.port`]: '8888', // Changed from number to string
-        [`traefik.http.routers.${new_container_info.name}.middlewares`]: 'wssh-network-headers',
-        [`traefik.http.middlewares.wssh-network-headers.headers.customrequestheaders.X-Real-IP`]: 'remote_addr',
-        [`traefik.http.routers.${new_container_info.name}-ws.middlewares`]: 'wssh-ws',
-        [`traefik.http.middlewares.wssh-ws.headers.customresponseheaders.Sec-WebSocket-Accept`]: '*' // Removed extra '='
+        [`traefik.http.routers.${new_container_info.name}.middlewares`]: 'karankumarmishra/wssh-network-headers',
+        [`traefik.http.middlewares.karankumarmishra/wssh-network-headers.headers.customrequestheaders.X-Real-IP`]: 'remote_addr',
+        [`traefik.http.routers.${new_container_info.name}-ws.middlewares`]: 'karankumarmishra/wssh-ws',
+        [`traefik.http.middlewares.karankumarmishra/wssh-ws.headers.customresponseheaders.Sec-WebSocket-Accept`]: '*' // Removed extra '='
     };
 
     const container = await docker.createContainer({
         Image: 'karankumarmishra/wssh',
         name: new_container_info.name,
-        AttachStdin: false,
-        AttachStdout: false,
-        AttachStderr: false,
-        Tty: false,
-        OpenStdin: false,
+        // AttachStdin: false,
+        // AttachStdout: false,
+        // AttachStderr: false,
+        // Tty: false,
+        // OpenStdin: false,
         // ExposedPorts: {
         //     '80/tcp': {},
         //     '8080/tcp': {}

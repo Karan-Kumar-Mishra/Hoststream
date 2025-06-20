@@ -25,7 +25,7 @@ server.get('/', (req, res) => {
 });
 server.use('/create', Router_1.default.create_container);
 server.use('/start', Router_1.default.start_container);
-server.use('/stop', Router_1.default.start_container);
+server.use('/stop', Router_1.default.stop_container);
 server.use('/delete', Router_1.default.delete_container);
 const port = process.env.PORT || 81;
 server.listen(port, () => {
