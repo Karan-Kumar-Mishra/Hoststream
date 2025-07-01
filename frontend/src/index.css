@@ -308,3 +308,13 @@ import '@fontsource/roboto/700.css'; */
     user-select: none;
   }
 }
+.spotlight {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0, 255, 128, 0.4) 0%, transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s ease;
+  z-index: 0;
+}

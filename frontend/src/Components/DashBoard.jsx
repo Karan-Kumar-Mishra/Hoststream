@@ -33,6 +33,7 @@ import SearchBarWithSuggestions from "../Components/SearchBarWithSuggestions"
 import Notification from "./Notification";
 import ImportantDevicesIcon from '@mui/icons-material/ImportantDevices';
 import InfoIcon from '@mui/icons-material/Info';
+import About from "./About";
 
 const NAVIGATION = [
   {
@@ -102,6 +103,7 @@ function DemoPageContent({ pathname }) {
       {pathname === "/setting" && <Setting />}
       {pathname === "/services/static_site" && <SiteForm />}
       {pathname === "/services/ec2" && <Ec2 />}
+      {pathname === "/about" && <About/>}
     </Box>
   );
 }

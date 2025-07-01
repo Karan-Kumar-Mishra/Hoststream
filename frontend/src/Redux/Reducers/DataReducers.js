@@ -16,11 +16,11 @@ const initialState = {
     },
     other_info: {
       crsrpgif: { // current servicepage information
-        id: 1234,
-        URL: "https://www.google.com",
-        domain_name:"domain",
-        site_name: "site name",
-        Date: Date.now()
+        id: null,
+        URL: null,
+        domain_name:null,
+        site_name:null,
+        Date: null
       }
     },
   },
