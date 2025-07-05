@@ -22,7 +22,7 @@ export default function PowerButton(props) {
 
     <div className="switch">
       <input onChange={handleToggle} id="toggle" type="checkbox" />
-      <label className="toggle" for="toggle">
+      <label className="toggle" htmlFor="toggle">
         <i></i>
       </label>
     </div>

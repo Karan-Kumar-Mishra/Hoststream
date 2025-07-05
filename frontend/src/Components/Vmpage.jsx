@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { delete_vm } from "../Redux/Actions/deletevm";
 
 
 
@@ -28,14 +29,17 @@ const style = {
 };
 export default function Vmpage() {
     const { isLoaded, isSignedIn, user } = useUser();
+    const dispatch = useDispatch();
     const store_data = useSelector((state) => state.Data);
     const navigate = useNavigate();
     const Dispatch = useDispatch();
     const URL_ref = useRef(null);
     const [open, setOpen] = React.useState(false);
     function handleOpen() {
+        Dispatch(delete_vm(store_data.UserInfo.other_info.crvmsrpgif.vm_id));
         setOpen(true);
         setalretmsg("Deleteing your EC2 cluster !")
+        navigate("/dashboard");
     }
     const handleClose = () => setOpen(false);
     function handstop_cluster(msg) {
@@ -46,6 +50,10 @@ export default function Vmpage() {
     const [alretmsg, setalretmsg] = useState("Some thing went worng ");
 
     useEffect(() => {
+        dispatch({ type: 'NVGT_TO_VM', payload: false })
+        if (store_data.UserInfo.other_info.crvmsrpgif.vm_name == null || store_data.UserInfo.other_info.crvmsrpgif.vm_url === null) {
+            navigate("/dashboard");
+        }
         Dispatch({ type: 'NVGT_TO_SITE', payload: false })
         if (isLoaded) {
             console.log("user => ", user);
@@ -57,10 +65,7 @@ export default function Vmpage() {
             }
         }
     }, [isLoaded, isSignedIn, user, navigate]);
-    function deleteing_site(id) {
-        Dispatch(delete_site(id));
-        navigate("/dashboard");
-    }
+
     return (
         <div className="h-screen w-screen flex items-center flex-col overflow-y-scroll p-4">
             <div className="bg-transparent w-full max-w-6xl flex flex-col gap-5 md:flex-row justify-between items-center p-6">
@@ -97,11 +102,11 @@ export default function Vmpage() {
                     {/* <h3>{store_data.UserInfo.other_info.crsrpgif.id}</h3> */}
                     <div className="flex flex-row gap-2">
                         <h1 className="text-green-500" >URL:</h1>
-                        <a className="overflow-x-scroll hidescroll" href="https://www.google.com" target="_blanck">https://www.google.com</a>
+                        <a className="overflow-x-scroll hidescroll" href={store_data.UserInfo.other_info.crvmsrpgif.vm_url} target="_blanck">{store_data.UserInfo.other_info.crvmsrpgif.vm_url}</a>
                     </div>
                     <div className="flex flex-row gap-2">
                         <h1 className="text-green-500" >Hostname: </h1>
-                        <h3 className="overflow-x-scroll hidescroll" >root.hoststream.com</h3>
+                        <h3 className="overflow-x-scroll hidescroll" >{import.meta.env.VITE_EC2_HOST}</h3>
                     </div>
                     <div className="flex flex-row gap-2">
                         <h1 className="text-green-500" >Username: </h1>

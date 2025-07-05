@@ -7,13 +7,14 @@ const express_1 = __importDefault(require("express"));
 const Services_1 = __importDefault(require("../Services"));
 const delete_container = express_1.default.Router();
 exports.default = delete_container.delete('/', (req, res) => {
-    if ((!req.body) || (!req.body.id)) {
-        res.json({
-            status: "error",
-            msg: "Please the id for container ?"
-        });
-    }
-    Services_1.default.remove_container(req.body.id).then(() => {
+    // if((!req.body.user_id) || (!req.body.vm_id))
+    // {
+    //      res.json({
+    //         status: "error",
+    //         msg:"Please the id for container ?"
+    //     })
+    // }
+    Services_1.default.remove_container(req.body.user_id, req.body.vm_id).then(() => {
         res.json({
             status: "ok"
         });

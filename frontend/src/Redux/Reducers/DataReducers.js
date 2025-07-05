@@ -3,7 +3,8 @@ const initialState = {
     show_file_loader: false,
     nvgt_to_site: false,
     show_error: false,
-    error_message: "none"
+    error_message: "none",
+    nvgt_to_vm: false
   },
   UserInfo: {
     user: {
@@ -67,6 +68,12 @@ const dataReducer = (state = initialState, action) => {
     case "GET_VMS":
       state.UserInfo.services.vms = action.payload;
       return { ...state };
+    case "NVGT_TO_VM":
+      state.ComponentData.nvgt_to_vm = action.payload;
+      return { ...state };
+    case "DELETE_VM":
+      return state;
+
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 .terminal_cursor {
   display: block;
-  height: 3.5vh;
-  width: 0.6vw;
+  height: 20px;
+  width: 10px;
   animation: curbl 1200ms linear infinite;
 }
 

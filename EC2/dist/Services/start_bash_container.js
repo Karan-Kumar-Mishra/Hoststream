@@ -13,7 +13,7 @@ async function start_bash_container() {
         socketPath: '/var/run/docker.sock'
     });
     const ID = await (0, get_Id_1.default)('traefik');
-    await (0, remove_container_1.default)(ID || 'none');
+    await (0, remove_container_1.default)("", ID || 'none');
     try {
         const container = await docker.createContainer({
             Image: 'traefik',

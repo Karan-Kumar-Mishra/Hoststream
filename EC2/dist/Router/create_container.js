@@ -14,7 +14,6 @@ exports.default = creat_container.post('/', (req, res) => {
     //           message:"Invaild json!"
     //     })
     // }
-    console.log("on create route=> ", req.body);
     const new_container = {
         user_id: req.body.user_id,
         name: req.body.vm_name,
@@ -35,7 +34,6 @@ exports.default = creat_container.post('/', (req, res) => {
         }).then(() => id);
     })
         .then((id) => {
-        console.log("send object=> ", new_container);
         res.send({
             status: "ok",
             vm_id: id,

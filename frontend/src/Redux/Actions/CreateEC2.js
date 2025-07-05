@@ -1,5 +1,5 @@
 
-
+import { set_crvmpgif } from "./Setcrvmpif";
 export const create_ec2 = (vm_data) => {
     return async (dispatch, getState) => {
         try {
@@ -18,7 +18,8 @@ export const create_ec2 = (vm_data) => {
                     vm_password: vm_data.password
                 })
             }
-            console.log("vm_data whiling sending..",vm_data)
+            console.log("vm_data whiling sending..", vm_data)
+            dispatch({ type: 'SHOW_LOADER', payload: true })
             let a = await fetch(import.meta.env.VITE_EC2 + '/create', option);
             let res = await a.json()
             if (res.status === "ok") {
@@ -29,7 +30,10 @@ export const create_ec2 = (vm_data) => {
                     password: res.vm_password
                 }
                 dispatch({ type: 'CREATE_VM', payload: res_obj })
-              console.log("response=>",res)
+                console.log("response=>", res)
+                dispatch(set_crvmpgif(res));
+                dispatch({ type: 'SHOW_LOADER', payload: false })
+                dispatch({ type: 'NVGT_TO_VM', payload: true })
             }
         } catch (error) {
             console.error("Error uploading files:", error);
