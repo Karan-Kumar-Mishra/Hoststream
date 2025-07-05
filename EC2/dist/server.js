@@ -7,14 +7,10 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const Services_1 = __importDefault(require("./Services"));
-const path_1 = __importDefault(require("path"));
 const Router_1 = __importDefault(require("./Router"));
 const body_parser_1 = __importDefault(require("body-parser"));
 Services_1.default.init();
 dotenv_1.default.config();
-dotenv_1.default.config({
-    path: path_1.default.resolve(__dirname, '.env')
-});
 const server = (0, express_1.default)();
 server.use((0, cors_1.default)());
 server.use(body_parser_1.default.json());

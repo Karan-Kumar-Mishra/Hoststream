@@ -11,4 +11,4 @@ RUN npm install
 RUN npm run build
 
 EXPOSE 80 81 443 8080
-CMD ["sh", "-c", "dockerd & node dist/server.js"]
+CMD ["sh", "-c", "dockerd & npm run dev"]

@@ -29,6 +29,7 @@ server.use('/host_site', Routers.host_site);
 server.use('/get_sites_list', Routers.get_sites_list);
 server.use('/delete_site', Routers.delete_site);
 server.use('/setup_folder', Routers.setup_folder);
+server.use('/get_vms', Routers.get_vms);
 
 const port = process.env.PORT || 88;
 server.listen(port, () => {

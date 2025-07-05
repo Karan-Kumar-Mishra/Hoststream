@@ -17,6 +17,14 @@ services:
     volumes:
       - ./Proxy-Server:/app
       - /app/node_modules
+  # ec2-server:
+  #   image: ec2-dev
+  #   network_mode: "host"  
+  #   depends_on:
+  #     - backend
+  #   volumes:
+  #     - ./ec2-Server:/app
+  #     - /app/node_modules
 
 
   frontend:

@@ -8,44 +8,77 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
-
-
+import { useSelector,useDispatch } from 'react-redux';
+import set_user from '../Redux/Actions/SetUser';
+import { create_ec2 } from '../Redux/Actions/CreateEC2';
 export default function Ec2() {
   const [showPassword, setShowPassword] = React.useState(false);
-  const [ec2_input,setec2_input]=React.useState(null);
+  const dispatch=useDispatch();
+  const store_data = useSelector((state) => state.Data);
+  const [ec2_input, setec2_input] = React.useState({
+    name: '',
+    username: '',
+    password: ''
+  });
+
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
   const handleMouseUpPassword = (event) => {
     event.preventDefault();
   };
-  
- 
+
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+    setec2_input(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    createVM();
+  };
+
+  function createVM() {
+    console.log('Creating VM with:', ec2_input);
+    dispatch(create_ec2(ec2_input))
+  }
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap', m: 6 }}>
-      <div>
+      <form onSubmit={handleSubmit}>
         <FormControl fullWidth sx={{ m: 1 }}>
-          <InputLabel htmlFor="outlined-adornment-amount">Name</InputLabel>
+          <InputLabel htmlFor="name">Name</InputLabel>
           <OutlinedInput
-            id="outlined-adornment-amount"
+            id="name"
             label="Name"
+            value={ec2_input.name}
+            onChange={handleInputChange}
+            required
           />
         </FormControl>
         <FormControl fullWidth sx={{ m: 1 }}>
-          <InputLabel htmlFor="outlined-adornment-amount">Username</InputLabel>
+          <InputLabel htmlFor="username">Username</InputLabel>
           <OutlinedInput
-            id="outlined-adornment-amount"
+            id="username"
             label="Username"
+            value={ec2_input.username}
+            onChange={handleInputChange}
+            required
           />
         </FormControl>
-
         <FormControl fullWidth sx={{ m: 1 }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <InputLabel htmlFor="password">Password</InputLabel>
           <OutlinedInput
-            id="outlined-adornment-password"
+            id="password"
             type={showPassword ? 'text' : 'password'}
+            value={ec2_input.password}
+            onChange={handleInputChange}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -62,14 +95,19 @@ export default function Ec2() {
               </InputAdornment>
             }
             label="Password"
+            required
           />
         </FormControl>
-        <Button fullWidth sx={{ m: 1 }} variant="contained" size="large">
+        <Button 
+          fullWidth 
+          sx={{ m: 1 }} 
+          variant="contained" 
+          size="large"
+          type="submit"
+        >
           Create
         </Button>
-
-      </div>
-
+      </form>
     </Box>
   );
 }

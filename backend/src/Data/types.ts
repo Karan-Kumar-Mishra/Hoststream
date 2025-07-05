@@ -7,7 +7,8 @@ interface model_type extends Document {
     email: string,
     username: string,
     services: {
-        static_site: []
+        static_site: [],
+        vms:[]
     },
     other_info: {},
 }

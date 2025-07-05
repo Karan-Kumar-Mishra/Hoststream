@@ -5,74 +5,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const Services_1 = __importDefault(require("../Services"));
+const Database_1 = __importDefault(require("../Database"));
 const creat_container = express_1.default.Router();
-creat_container.post('/', async (req, res) => {
-    try {
-        // Validate required fields
-        if (!req.body.name || !req.body.username || !req.body.password) {
-            res.status(400).json({
-                status: "error",
-                message: "Name, username, and password are required"
-            });
-        }
-        // Check if name is available
-        const idAvailable = await Services_1.default.get_ID(req.body.name);
-        if (idAvailable) {
-            res.status(400).json({
-                status: "error",
-                message: "Please change the name, this name is not available!"
-            });
-        }
-        // Process ports input
-        let ports = [];
-        if (req.body.ports) {
-            // Handle case where ports is a comma-separated string
-            if (typeof req.body.ports === 'string') {
-                ports = req.body.ports.split(',')
-                    .map((port) => port.trim())
-                    .filter((port) => port !== '')
-                    .map((port) => {
-                    const portNum = parseInt(port, 10);
-                    if (isNaN(portNum) || portNum < 1 || portNum > 65535) {
-                        throw new Error(`Invalid port number: ${port}`);
-                    }
-                    return portNum;
-                });
-            }
-            // Handle case where ports is already an array
-            else if (Array.isArray(req.body.ports)) {
-                ports = req.body.ports.map((port) => {
-                    const portNum = typeof port === 'string' ? parseInt(port, 10) : port;
-                    if (isNaN(portNum) || portNum < 1 || portNum > 65535) {
-                        throw new Error(`Invalid port number: ${port}`);
-                    }
-                    return portNum;
-                });
-            }
-        }
-        // Create container object
-        const new_container = {
-            name: req.body.name,
-            username: req.body.username,
-            password: req.body.password,
-            ports: ports
-        };
-        // Create and start container
-        const id = await Services_1.default.create_container(new_container);
-        await Services_1.default.start_container(id);
-        res.json({
+exports.default = creat_container.post('/', (req, res) => {
+    // if (!req.body.vm_name || req.body.username || req.body.password) {
+    //   res.json({
+    //           status:"error",
+    //           message:"Invaild json!"
+    //     })
+    // }
+    console.log("on create route=> ", req.body);
+    const new_container = {
+        user_id: req.body.user_id,
+        name: req.body.vm_name,
+        username: req.body.vm_username,
+        password: req.body.vm_password,
+        ports: req.body.vm_ports
+    };
+    Services_1.default.create_container(new_container)
+        .then(async (id) => {
+        return await Services_1.default.start_container(id).then(() => id);
+    })
+        .then(async (id) => {
+        return await Database_1.default.add_vm(req.body.user_id, {
+            vm_id: id,
+            vm_name: new_container.name,
+            vm_username: new_container.username,
+            vm_password: new_container.password
+        }).then(() => id);
+    })
+        .then((id) => {
+        console.log("send object=> ", new_container);
+        res.send({
             status: "ok",
-            id: id
+            vm_id: id,
+            vm_name: new_container.name,
+            vm_username: new_container.username,
+            vm_password: new_container.password
         });
-    }
-    catch (error) {
-        console.error("Request processing error:", error);
-        const statusCode = error instanceof Error && error.message.includes('Invalid') ? 400 : 500;
-        res.status(statusCode).json({
+    })
+        .catch((error) => {
+        res.status(500).json({
             status: "error",
-            message: "Failed to process request",
-            details: error instanceof Error ? error.message : String(error)
+            message: error.message
         });
-    }
+    });
 });
-exports.default = creat_container;

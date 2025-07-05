@@ -3,6 +3,7 @@ import "../css/StartPage.css";
 import { SignIn } from "@clerk/clerk-react";
 
 export default function StartPageBackground() {
+ 
   return (
     <div className="flex flex-col md:flex-row gap-5 p-2 md:p-4 w-full ">
       <div className="flex justify-center items-center p-4 md:p-10 w-full md:w-auto">

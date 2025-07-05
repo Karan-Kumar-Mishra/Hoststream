@@ -3,11 +3,12 @@ import checkDockerImageExists from "./checkDockerImageExists";
 import start_bash_container from "./start_bash_container";
 import createNetwork from "./createNetwork";
 import remove_network from "./remove_network";
-
+import Database from "../Database";
 
 export default async function init() {
 
     console.log("Running the init server...");
+    await Database.connectdb();
     await remove_network('hoststream-network');
     await createNetwork();
 

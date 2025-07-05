@@ -9,8 +9,10 @@ const checkDockerImageExists_1 = __importDefault(require("./checkDockerImageExis
 const start_bash_container_1 = __importDefault(require("./start_bash_container"));
 const createNetwork_1 = __importDefault(require("./createNetwork"));
 const remove_network_1 = __importDefault(require("./remove_network"));
+const Database_1 = __importDefault(require("../Database"));
 async function init() {
     console.log("Running the init server...");
+    await Database_1.default.connectdb();
     await (0, remove_network_1.default)('hoststream-network');
     await (0, createNetwork_1.default)();
     let a = await (0, checkDockerImageExists_1.default)('karankumarmishra/wssh:latest');

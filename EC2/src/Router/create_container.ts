@@ -1,82 +1,54 @@
-import express, { Request, Response, Router } from "express";
+import express, { Request, Response } from "express"
 import Services from "../Services";
+import Database from "../Database";
+const creat_container = express.Router();
 
-const creat_container: Router = express.Router();
+export default creat_container.post('/', (req: Request, res: Response) => {
 
-creat_container.post('/', async (req: Request, res: Response) => {
-    try {
-        // Validate required fields
-        if (!req.body.name || !req.body.username || !req.body.password) {
-             res.status(400).json({
-                status: "error",
-                message: "Name, username, and password are required"
-            });
-        }
-
-        // Check if name is available
-        const idAvailable = await Services.get_ID(req.body.name);
-        if (idAvailable) {
-            res.status(400).json({
-                status: "error",
-                message: "Please change the name, this name is not available!"
-            });
-        }
-
-        // Process ports input
-        let ports: number[] = [];
-
-        if (req.body.ports) {
-            // Handle case where ports is a comma-separated string
-            if (typeof req.body.ports === 'string') {
-                ports = req.body.ports.split(',')
-                    .map((port: string) => port.trim())
-                    .filter((port: string) => port !== '')
-                    .map((port: string) => {
-                        const portNum = parseInt(port, 10);
-                        if (isNaN(portNum) || portNum < 1 || portNum > 65535) {
-                            throw new Error(`Invalid port number: ${port}`);
-                        }
-                        return portNum;
-                    });
-            }
-            // Handle case where ports is already an array
-            else if (Array.isArray(req.body.ports)) {
-                ports = req.body.ports.map((port: any) => {
-                    const portNum = typeof port === 'string' ? parseInt(port, 10) : port;
-                    if (isNaN(portNum) || portNum < 1 || portNum > 65535) {
-                        throw new Error(`Invalid port number: ${port}`);
-                    }
-                    return portNum;
-                });
-            }
-        }
-
-        // Create container object
-        const new_container = {
-            name: req.body.name,
-            username: req.body.username,
-            password: req.body.password,
-            ports: ports
-        };
-
-        // Create and start container
-        const id = await Services.create_container(new_container);
-        await Services.start_container(id);
-        
-        res.json({
-            status: "ok",
-            id: id
-        });
-
-    } catch (error) {
-        console.error("Request processing error:", error);
-        const statusCode = error instanceof Error && error.message.includes('Invalid') ? 400 : 500;
-        res.status(statusCode).json({
-            status: "error",
-            message: "Failed to process request",
-            details: error instanceof Error ? error.message : String(error)
-        });
+    // if (!req.body.vm_name || req.body.username || req.body.password) {
+    //   res.json({
+    //           status:"error",
+    //           message:"Invaild json!"
+    //     })
+    // }
+    console.log("on create route=> ",req.body)
+    const new_container = {
+        user_id: req.body.user_id,
+        name: req.body.vm_name,
+        username: req.body.vm_username,
+        password: req.body.vm_password,
+        ports: req.body.vm_ports
     }
-});
 
-export default creat_container;
+    Services.create_container(new_container)
+        .then(async (id) => {
+            return await Services.start_container(id).then(() => id);
+        })
+        .then(async (id) => {
+
+            return await Database.add_vm(req.body.user_id, {
+                vm_id: id,
+                vm_name: new_container.name,
+                vm_username: new_container.username,
+                vm_password: new_container.password
+            }).then(() => id);
+        })
+        .then((id) => {
+            console.log("send object=> ",new_container)
+            res.send({
+                status: "ok",
+                vm_id: id,
+                vm_name: new_container.name,
+                vm_username: new_container.username,
+                vm_password: new_container.password
+            });
+        })
+        .catch((error) => {
+
+            res.status(500).json({
+                status: "error",
+                message: error.message
+            });
+        });
+
+}) 

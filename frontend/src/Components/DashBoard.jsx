@@ -18,7 +18,7 @@ import { useDemoRouter } from "@toolpad/core/internal";
 import { UserButton } from "@clerk/clerk-react";
 import Setting from "./Setting";
 import { useNavigate } from "react-router-dom";
-import SettingsIcon from "@mui/icons-material/Settings";
+
 import CategoryIcon from "@mui/icons-material/Category";
 import WebAssetIcon from "@mui/icons-material/WebAsset";
 import SiteForm from "./SiteForm";

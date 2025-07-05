@@ -5,6 +5,8 @@ import { get_list_static_site } from "../Redux/Actions/GetListStaticSite";
 import { useUser, RedirectToSignIn } from "@clerk/clerk-react";
 import { nanoid } from "nanoid";
 import { set_crspgif } from "../Redux/Actions/SetCrsrpgif.js";
+import { get_ec2s } from "../Redux/Actions/GetVms.js";
+import { set_crvmpgif } from "../Redux/Actions/Setcrvmpif.js";
 
 export default function DashBoardItem() {
   const [loading, setLoading] = useState(true);
@@ -13,47 +15,48 @@ export default function DashBoardItem() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const store_data = useSelector((state) => state.Data);
-  
-  // Improved selector with better null checks
-  const static_sites = useSelector((state) => 
+
+
+  const static_sites = useSelector((state) =>
     state.Data?.UserInfo?.services?.static_site || []
   );
-  
-  const { isLoaded, isSignedIn, user } = useUser();
+  const vms = useSelector((state) =>
+    state.Data?.UserInfo?.services?.vms || []
+  );
 
-  // Debugging logs
-  // console.log("Current state:", {
-  //   isLoaded,
-  //   isSignedIn,
-  //   loading,
-  //   staticSitesCount: static_sites?.length,
-  //   initialLoad
-  // });
+  const { isLoaded, isSignedIn, user } = useUser();
 
   function setupservicepage(params) {
     dispatch(set_crspgif(params));
     navigate("/servicePage");
   }
+  function setupvmpage(params) {
+    navigate("/vmpage");
+    dispatch(set_crvmpgif(params));
+  }
 
   useEffect(() => {
     if (isLoaded && isSignedIn && initialLoad) {
-     // console.log("Fetching static sites...");
+
       setLoading(true);
       setError(null);
-      
+
       dispatch(get_list_static_site())
         .then(() => {
-         // console.log("Static sites fetched successfully state data:",store_data);
+
           setInitialLoad(false);
           setLoading(false);
+          dispatch(get_ec2s());
         })
         .catch((err) => {
-        //  console.error("Error fetching static sites:", err);
+
           setError("Failed to load sites. Please try again.");
           setLoading(false);
         });
+      console.log("arr vm=>", vms);
+
     }
-  }, [dispatch, isLoaded, isSignedIn, initialLoad,store_data?.UserInfo?.services?.static_site ]);
+  }, [dispatch, vms, isLoaded, isSignedIn, initialLoad, store_data?.UserInfo?.services?.static_site]);
 
   if (!isLoaded) {
     return <div>Loading authentication...</div>;
@@ -78,7 +81,7 @@ export default function DashBoardItem() {
       <div className="settings-container">
         <div className="settings-box">
           <div className="text-red-500">{error}</div>
-          <button 
+          <button
             onClick={() => {
               setInitialLoad(true);
               setLoading(true);
@@ -96,7 +99,7 @@ export default function DashBoardItem() {
     <div className="settings-container">
       <div className="spotlight"></div>
       <div className="settings-box">
-        {static_sites?.length > 0 ? (
+        {(static_sites?.length > 0 || vms.length > 0) ? (
           <div className="settings-list flex-wrap">
             {static_sites.map((item) => (
               <div
@@ -104,10 +107,25 @@ export default function DashBoardItem() {
                 className="setting-item font-extrabold"
                 onClick={() => setupservicepage(item)}
               >
-                {console.log("web items ",item)}
+                {console.log("web items ", item)}
                 <span>{item.website_name}</span>
                 <a href={item.URL} target="_blank" rel="noopener noreferrer">
                   {item.URL}
+                </a>
+                <div className="option-button">...</div>
+              </div>
+            ))}
+
+            {vms.map((item) => (
+              <div
+                key={nanoid()}
+                className="setting-item font-extrabold"
+                onClick={() => setupvmpage(item)}
+              >
+                {console.log("vm items ", item)}
+                <span>{item.vm_name}</span>
+                <a href={item.URL} target="_blank" rel="noopener noreferrer">
+                  {item.vm_name}
                 </a>
                 <div className="option-button">...</div>
               </div>

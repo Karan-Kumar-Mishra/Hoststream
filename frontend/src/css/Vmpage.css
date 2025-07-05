@@ -1,0 +1,38 @@
+.terminal_cursor {
+  display: block;
+  height: 3.5vh;
+  width: 0.6vw;
+  animation: curbl 1200ms linear infinite;
+}
+
+@keyframes curbl {
+  
+  0% {
+    background: #ffffff;
+  }
+
+  49% {
+    background: #ffffff;
+  }
+
+  60% {
+    background: transparent;
+  }
+
+  99% {
+    background: transparent;
+  }
+
+  100% {
+    background: #ffffff;
+  }
+} 
+.hidescroll {
+  overflow: auto;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.hidescroll::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari, Opera */
+}
