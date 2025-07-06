@@ -23,14 +23,15 @@ exports.default = creat_container.post('/', (req, res) => {
     };
     Services_1.default.create_container(new_container)
         .then(async (id) => {
-        return await Services_1.default.start_container(id).then(() => id);
+        return await Services_1.default.start_container(req.body.user_id, id).then(() => id);
     })
         .then(async (id) => {
         return await Database_1.default.add_vm(req.body.user_id, {
             vm_id: id,
             vm_name: new_container.name,
             vm_username: new_container.username,
-            vm_password: new_container.password
+            vm_password: new_container.password,
+            vm_state: "on"
         }).then(() => id);
     })
         .then((id) => {

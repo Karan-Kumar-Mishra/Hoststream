@@ -24,7 +24,8 @@ type new_vm_type={
      vm_id:string,
      vm_name:string,
      vm_username:string,
-     vm_password:string
+     vm_password:string,
+     vm_state:string
 }
 export  {
     user_container_type,

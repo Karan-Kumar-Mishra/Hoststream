@@ -1,18 +1,17 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import PowerButton from "./PowerButton";
-
 import { useNavigate } from "react-router-dom";
 import { useUser, RedirectToSignIn } from "@clerk/clerk-react";
 import { useDispatch, useSelector } from "react-redux";
-import { delete_site } from "../Redux/Actions/DeleteSite";
+
 import '../css/Vmpage.css'
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { delete_vm } from "../Redux/Actions/deletevm";
-
+import { start_vm } from "../Redux/Actions/start_vm";
 
 
 const style = {
@@ -22,7 +21,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'red',
+    bgcolor: 'green',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
@@ -34,6 +33,7 @@ export default function Vmpage() {
     const navigate = useNavigate();
     const Dispatch = useDispatch();
     const URL_ref = useRef(null);
+
     const [open, setOpen] = React.useState(false);
     function handleOpen() {
         Dispatch(delete_vm(store_data.UserInfo.other_info.crvmsrpgif.vm_id));
@@ -47,13 +47,14 @@ export default function Vmpage() {
         setalretmsg(msg)
     }
 
-    const [alretmsg, setalretmsg] = useState("Some thing went worng ");
+    const [alretmsg, setalretmsg] = useState("Some thing went worng !");
 
     useEffect(() => {
         dispatch({ type: 'NVGT_TO_VM', payload: false })
         if (store_data.UserInfo.other_info.crvmsrpgif.vm_name == null || store_data.UserInfo.other_info.crvmsrpgif.vm_url === null) {
             navigate("/dashboard");
         }
+
         Dispatch({ type: 'NVGT_TO_SITE', payload: false })
         if (isLoaded) {
             console.log("user => ", user);
@@ -65,6 +66,13 @@ export default function Vmpage() {
             }
         }
     }, [isLoaded, isSignedIn, user, navigate]);
+    useEffect(() => {
+        if (store_data.UserInfo.other_info.crvmsrpgif.vm_state === 'off') {
+           
+           setOpen(false);
+        }
+       
+    }, [store_data.UserInfo.other_info.crvmsrpgif.vm_state, handleClose, open])
 
     return (
         <div className="h-screen w-screen flex items-center flex-col overflow-y-scroll p-4">
@@ -119,7 +127,7 @@ export default function Vmpage() {
 
 
                     <div className="flex flex-row gap-4">
-                        <PowerButton alertfunction={handstop_cluster} />
+                        <PowerButton alertfunction={handstop_cluster} closealert={handleClose} />
                         <Button onClick={handleOpen} variant="outlined" color="error">
                             Delete
                         </Button>

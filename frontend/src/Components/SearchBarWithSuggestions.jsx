@@ -18,7 +18,7 @@ const SearchBarWithSuggestions = () => {
 
     const dispatch = useDispatch();
     const store_data = useSelector((state) => state.Data);
-    const [allItems, setallItems] = useState(store_data?.UserInfo?.services?.static_site || [])
+    const [allItems, setallItems] = useState(store_data?.UserInfo?.services?.static_site  || [])
 
 
     useEffect(() => {

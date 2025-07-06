@@ -7,13 +7,13 @@ const express_1 = __importDefault(require("express"));
 const Services_1 = __importDefault(require("../Services"));
 const start_container = express_1.default.Router();
 exports.default = start_container.post('/', (req, res) => {
-    if ((!req.body) || (!req.body.id)) {
-        res.json({
-            status: "error",
-            msg: "Please the id for container ?"
-        });
-    }
-    Services_1.default.start_container(req.body.id).then(() => {
+    // if ((!req.body) || (!req.body.id)) {
+    //     res.json({
+    //         status: "error",
+    //         msg: "Please the id for container ?"
+    //     })
+    // }
+    Services_1.default.start_container(req.body.user_id, req.body.vm_id).then(() => {
         res.json({
             status: "ok"
         });

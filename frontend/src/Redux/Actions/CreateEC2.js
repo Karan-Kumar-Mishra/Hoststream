@@ -3,6 +3,7 @@ import { set_crvmpgif } from "./Setcrvmpif";
 export const create_ec2 = (vm_data) => {
     return async (dispatch, getState) => {
         try {
+            dispatch({ type: 'NVGT_TO_VM', payload: false })
             const state = getState();
 
             let option = {

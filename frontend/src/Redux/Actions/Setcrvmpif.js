@@ -7,6 +7,7 @@ export const set_crvmpgif = (userdata) => {
         state.Data.UserInfo.other_info.crvmsrpgif.vm_id = userdata.vm_id;
         state.Data.UserInfo.other_info.crvmsrpgif.vm_username = userdata.vm_username;
         state.Data.UserInfo.other_info.crvmsrpgif.vm_password = userdata.vm_password;
+        state.Data.UserInfo.other_info.crvmsrpgif.vm_state=userdata.vm_state;
         dispatch({ type: 'SET_CRVMPGIF', payload: state });
     };
 };

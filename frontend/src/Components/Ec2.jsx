@@ -53,7 +53,7 @@ export default function Ec2() {
   function createVM() {
     console.log('Creating VM with:', ec2_input);
     dispatch(create_ec2(ec2_input));
-    console.log("vm_nviagete=> ", store_data.ComponentData.nvgt_to_vm)
+
     if (store_data.ComponentData.nvgt_to_vm) {
       nevigate("/vmpage");
     }

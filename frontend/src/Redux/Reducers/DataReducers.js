@@ -29,7 +29,8 @@ const initialState = {
         vm_id: null,
         vm_name: null,
         vm_username: null,
-        vm_password: null
+        vm_password: null,
+        vm_state:'off'
       }
     },
   },
@@ -72,6 +73,12 @@ const dataReducer = (state = initialState, action) => {
       state.ComponentData.nvgt_to_vm = action.payload;
       return { ...state };
     case "DELETE_VM":
+      return state;
+    case "STOP_VM":
+      state.UserInfo.other_info.crvmsrpgif.vm_state="off"; 
+      return state;
+    case "START_VM":
+      state.UserInfo.other_info.crvmsrpgif.vm_state="on"; 
       return state;
 
     default:

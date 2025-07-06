@@ -98,7 +98,7 @@ export default function DashBoardItem() {
   return (
     <div className="settings-container">
       <div className="spotlight"></div>
-      <div className="settings-box">
+      <div className="settings-box rounded">
         {(static_sites?.length > 0 || vms.length > 0) ? (
           <div className="settings-list flex-wrap">
             {static_sites.map((item) => (
@@ -127,7 +127,7 @@ export default function DashBoardItem() {
                 <a href={item.URL} target="_blank" rel="noopener noreferrer">
                   {item.vm_name}
                 </a>
-                <div className="option-button">...</div>
+                <div className={`option-button ${item.vm_state==='on' ? 'bg-green-400' : 'bg-yellow-400'} `}></div>
               </div>
             ))}
           </div>
