@@ -5,6 +5,8 @@ import get_sites_list from "./get_sites_list.js"
 import delete_site from "./delete_site.js"
 import setup_folder from "./setup_folder.js"
 import get_vms from "./get_vms.js"
+import createorder from "./createorder.js"
+import verify_payment from "./verify_payment.js"
 export default {
     create_site,
     create_user,
@@ -12,6 +14,8 @@ export default {
     host_site,
     delete_site,
     setup_folder,
-    get_vms
+    get_vms,
+    createorder,
+    verify_payment
   
 }

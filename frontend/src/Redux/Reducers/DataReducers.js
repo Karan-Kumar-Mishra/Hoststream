@@ -30,7 +30,7 @@ const initialState = {
         vm_name: null,
         vm_username: null,
         vm_password: null,
-        vm_state:'off'
+        vm_state: 'off'
       }
     },
   },
@@ -76,6 +76,7 @@ const dataReducer = (state = initialState, action) => {
       return state;
     case "STOP_VM":
       state.UserInfo.other_info.crvmsrpgif.vm_state="off"; 
+        console.log("compelete for stop ")
       return state;
     case "START_VM":
       state.UserInfo.other_info.crvmsrpgif.vm_state="on"; 

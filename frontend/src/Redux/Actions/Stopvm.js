@@ -12,6 +12,7 @@ export const stop_vm = (vm_id) => {
                     vm_id:vm_id
                 })
             }
+          
             let a = await fetch(import.meta.env.VITE_EC2+ '/stop', option);
             let res = await a.json()
             if (res.status === "ok") {

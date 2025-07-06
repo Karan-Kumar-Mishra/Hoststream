@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { stop_vm } from "../Redux/Actions/Stopvm";
 import { start_vm } from "../Redux/Actions/start_vm";
 import { useNavigate } from "react-router-dom";
+import { set_crvmpgif } from "../Redux/Actions/Setcrvmpif.js";
 export default function PowerButton(props) {
   const store_data = useSelector((state) => state.Data);
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ export default function PowerButton(props) {
     else {
       document.getElementById('toggle').checked = false; //mark off the power button
     }
-  }, [store_data.UserInfo.other_info.crvmsrpgif.vm_state])
+  }, [store_data.UserInfo.other_info.crvmsrpgif.vm_state,props.closealert,props.alertfunction,props])
 
   function handleToggle(params) {
     const checkbox = document.getElementById('toggle');
@@ -25,13 +26,14 @@ export default function PowerButton(props) {
         props.alertfunction("we are try to start your cluster wait...");
         console.log('Checkbox was checked (ON)');
         dispatch(start_vm(store_data.UserInfo.other_info.crvmsrpgif.vm_id))
-        
+        props.closealert();
+
       } else {
         props.alertfunction("we are try to stop your cluster wait...");
         console.log('Checkbox was unchecked (OFF)');
         dispatch(stop_vm(store_data.UserInfo.other_info.crvmsrpgif.vm_id))
         document.getElementById('toggle').checked = false;
-       // props.closealert();
+        props.closealert();
       }
     });
   }

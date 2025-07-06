@@ -30,6 +30,8 @@ server.use('/get_sites_list', Routers.get_sites_list);
 server.use('/delete_site', Routers.delete_site);
 server.use('/setup_folder', Routers.setup_folder);
 server.use('/get_vms', Routers.get_vms);
+server.use('/create_order', Routers.createorder);
+server.use('/verify_payment', Routers.verify_payment);
 
 const port = process.env.PORT || 88;
 server.listen(port, () => {

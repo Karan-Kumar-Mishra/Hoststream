@@ -12,6 +12,7 @@ import Setting from "./Setting";
 import SiteForm from "./SiteForm";
 import ServicePage from "./ServicePage";
 import Vmpage from "./Vmpage";
+import Payment from "./Payment";
 
 export default function Main() {
   return (
@@ -26,6 +27,7 @@ export default function Main() {
             <Route path="/servicePage" element={<ServicePage />} />
             <Route path="/siteForm" element={<SiteForm />} />
             <Route path="/vmpage" element={<Vmpage />} />
+            <Route path="/payment" element={<Payment />} />
             <Route path="*" element={<h1>not found</h1>} />
           </Routes>
         </Suspense>

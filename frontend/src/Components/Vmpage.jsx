@@ -11,7 +11,6 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { delete_vm } from "../Redux/Actions/deletevm";
-import { start_vm } from "../Redux/Actions/start_vm";
 
 
 const style = {
@@ -33,6 +32,7 @@ export default function Vmpage() {
     const navigate = useNavigate();
     const Dispatch = useDispatch();
     const URL_ref = useRef(null);
+    const [resposn,setresposn]=useState(store_data.UserInfo.other_info.crvmsrpgif.vm_state)
 
     const [open, setOpen] = React.useState(false);
     function handleOpen() {
@@ -46,7 +46,9 @@ export default function Vmpage() {
         setOpen(true);
         setalretmsg(msg)
     }
-
+    useEffect(() => {
+        console.log("state ->>>>", resposn)
+    }, [resposn])
     const [alretmsg, setalretmsg] = useState("Some thing went worng !");
 
     useEffect(() => {
@@ -68,11 +70,12 @@ export default function Vmpage() {
     }, [isLoaded, isSignedIn, user, navigate]);
     useEffect(() => {
         if (store_data.UserInfo.other_info.crvmsrpgif.vm_state === 'off') {
-           
-           setOpen(false);
+            setOpen(false);
         }
-       
-    }, [store_data.UserInfo.other_info.crvmsrpgif.vm_state, handleClose, open])
+
+    }, [store_data.UserInfo.other_info.crvmsrpgif.vm_state, open, setOpen, handleClose, handstop_cluster, alretmsg, setalretmsg, handleOpen
+        , store_data.UserInfo.other_info.crvmsrpgif
+    ])
 
     return (
         <div className="h-screen w-screen flex items-center flex-col overflow-y-scroll p-4">
