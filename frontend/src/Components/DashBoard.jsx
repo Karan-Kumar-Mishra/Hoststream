@@ -34,6 +34,7 @@ import Notification from "./Notification";
 import ImportantDevicesIcon from '@mui/icons-material/ImportantDevices';
 import InfoIcon from '@mui/icons-material/Info';
 import About from "./About";
+import { check_prime } from "../Functions/check_prime";
 
 const NAVIGATION = [
   {
@@ -103,7 +104,7 @@ function DemoPageContent({ pathname }) {
       {pathname === "/setting" && <Setting />}
       {pathname === "/services/static_site" && <SiteForm />}
       {pathname === "/services/ec2" && <Ec2 />}
-      {pathname === "/about" && <About/>}
+      {pathname === "/about" && <About />}
     </Box>
   );
 }
@@ -161,6 +162,38 @@ function DashboardLayoutSlots(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const store_data = useSelector((state) => state.Data);
+  const [prime, setprime] = React.useState(false);
+  React.useEffect(() => {
+    async function checkPrimeStatus() {
+
+      try {
+
+        let option = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            user_id: user.id,
+          })
+        }
+        let a = await fetch(import.meta.env.VITE_BACKEND_URL + '/checkprime', option);
+        let res = await a.json()
+
+        if (res.status === "ok") {
+          console.log(res)
+          if (!res.ans == true) {
+            navigate('/Payment');
+          }
+        }
+
+      } catch (error) {
+        console.error("Error  checking", error);
+      }
+    }
+
+    checkPrimeStatus();
+  }, [isLoaded, isSignedIn, user, navigate]); // Dependencies: user-related props
 
   React.useEffect(() => {
     if (isLoaded) {
@@ -188,6 +221,7 @@ function DashboardLayoutSlots(props) {
     create_user,
     get_list_static_site,
   ]);
+
   const { window } = props;
   const router = useDemoRouter("/dashboard");
   const demoWindow = window !== undefined ? window() : undefined;

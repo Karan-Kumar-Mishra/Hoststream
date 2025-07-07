@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useUser, RedirectToSignIn } from "@clerk/clerk-react";
 export default function Payment() {
   const [amount, setAmount] = useState(29000);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const store_data = useSelector((state) => state.Data);
+  const { isLoaded, isSignedIn, user } = useUser();
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -47,14 +51,16 @@ export default function Payment() {
         handler: async (response) => {
           try {
             // Verify payment with backend
+            console.log("while the sending => ", user.id)
             const verifyResponse = await axios.post(import.meta.env.VITE_BACKEND_URL + '/verify_payment', {
               orderId: response.razorpay_order_id,
               razorpayPaymentId: response.razorpay_payment_id,
               razorpaySignature: response.razorpay_signature,
+              user_id: user.id
             });
 
             if (verifyResponse.data.success) {
-             // alert('Payment verified successfully!');
+              // alert('Payment verified successfully!');
               navigate('/dashboard');
             } else {
               alert('Payment verification failed: ' + verifyResponse.data.message);
