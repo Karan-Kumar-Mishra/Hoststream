@@ -34,7 +34,7 @@ import Notification from "./Notification";
 import ImportantDevicesIcon from '@mui/icons-material/ImportantDevices';
 import InfoIcon from '@mui/icons-material/Info';
 import About from "./About";
-import { check_prime } from "../Functions/check_prime";
+
 
 const NAVIGATION = [
   {

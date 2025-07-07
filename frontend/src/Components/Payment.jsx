@@ -76,7 +76,7 @@ export default function Payment() {
           contact: '9999999999',
         },
         theme: {
-          color: '#F37254',
+          color: '#0200ff',
         },
       };
 

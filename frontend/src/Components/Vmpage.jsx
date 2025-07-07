@@ -98,7 +98,7 @@ export default function Vmpage() {
                 {/* Left Section */}
                 <div className="p-2 h-60 md:h-96 w-full md:w-1/2 shadow-2xl flex flex-row  shadow-blue-400 text-white"
                     onClick={() => {
-                        window.open('https://www.google.com', '_blank')
+                        window.open(store_data.UserInfo.other_info.crvmsrpgif.vm_url, '_blank')
                     }
                     }
                 >

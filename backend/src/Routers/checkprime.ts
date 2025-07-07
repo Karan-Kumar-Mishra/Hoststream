@@ -8,7 +8,7 @@ export default checkprime.post('/', (req, res) => {
     //         msg: "please send the user_id !"
     //     })
     // }
-    console.log(req.body)
+ 
     Database.check_prime(req.body.user_id).then((ans) => {
         res.send({
             status: "ok",
