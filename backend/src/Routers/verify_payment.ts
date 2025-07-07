@@ -1,39 +1,33 @@
 import express from "express";
 const verify_payment = express.Router();
 import crypto from "crypto";
+import Database from "../Database";
 
 export default verify_payment.post('/', (req, res) => {
     try {
-        console.log("on veryfy route")
-        const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = req.body;
-        
-        if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-             res.status(400).json({
-                error: "Missing payment verification data"
-            });
+        const { orderId, razorpayPaymentId, razorpaySignature } = req.body;
+        if (!orderId || !razorpayPaymentId || !razorpaySignature) {
+             res.status(400).json({ success: false, message: 'Invalid request parameters' });
         }
 
-        const hmac = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || "");
-        hmac.update(razorpay_order_id + "|" + razorpay_payment_id);
-        const generatedSignature = hmac.digest('hex');
+        const generatedSignature = crypto
+            .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || "rzp_test_RUGErNMHKD0mmg")
+            .update(`${orderId}|${razorpayPaymentId}`)
+            .digest('hex');
 
-        console.log(generatedSignature,"  ",razorpay_signature)
+        if (generatedSignature === razorpaySignature) {
+          //  await Database.mark_prime()
+            res.status(200).json({ success: true, message: 'Payment verified successfully' });
 
-        if (generatedSignature === razorpay_signature) {
-            // Payment is genuine - update your database here
-            res.json({ success: true });
         } else {
-            // Signature mismatch - possible tampering
-            res.status(400).json({ 
-                success: false,
-                error: "Payment verification failed"
-            });
+             res.status(400).json({ success: false, message: 'Payment verification failed' });
         }
     } catch (error) {
-        console.error("Verification error:", error);
-        res.status(500).json({
-            error: "Payment verification failed",
-            details: error
+        console.error('Payment Verification Error:', error);
+         res.status(500).json({
+            success: false,
+            message: 'Failed to verify payment',
+            error: error,
         });
     }
 });

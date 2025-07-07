@@ -1,8 +1,86 @@
-
-
-import makepayment from '../Functions/makepayment';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 export default function Payment() {
+  const [amount, setAmount] = useState(29000);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+  const handlePayment = async () => {
+    setLoading(true);
+    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+    if (!res) {
+      alert('Razorpay SDK failed to load. Are you online?');
+      setLoading(false);
+      return;
+    }
+
+    try {
+
+      const { data } = await axios.post(import.meta.env.VITE_BACKEND_URL + '/create_order', {
+        amount: parseFloat(amount),
+        currency: 'INR',
+      });
+
+      if (!data.success) {
+        alert('Failed to create order: ' + data.message);
+        setLoading(false);
+        return;
+      }
+
+      const options = {
+        key: data.key,
+        amount: data.amount,
+        currency: data.currency,
+        name: 'Hoststream',
+        description: 'Test Transaction',
+        order_id: data.orderId,
+        handler: async (response) => {
+          try {
+            // Verify payment with backend
+            const verifyResponse = await axios.post(import.meta.env.VITE_BACKEND_URL + '/verify_payment', {
+              orderId: response.razorpay_order_id,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature,
+            });
+
+            if (verifyResponse.data.success) {
+             // alert('Payment verified successfully!');
+              navigate('/dashboard');
+            } else {
+              alert('Payment verification failed: ' + verifyResponse.data.message);
+            }
+          } catch (error) {
+            alert('Error verifying payment: ' + error.message);
+          }
+          setLoading(false);
+        },
+        prefill: {
+          name: 'John Doe',
+          email: 'john.doe@example.com',
+          contact: '9999999999',
+        },
+        theme: {
+          color: '#F37254',
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      alert('Error creating order: ' + error.message);
+      setLoading(false);
+    }
+  };
   return (
 
     <div className="group relative w-80">
@@ -152,7 +230,7 @@ export default function Payment() {
 
           <div className="relative mt-8">
             <button
-               onClick={makepayment}
+              onClick={handlePayment}
               className="group/btn relative w-full overflow-hidden rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 p-px font-semibold text-white shadow-[0_1000px_0_0_hsl(0_0%_100%_/_0%)_inset] transition-colors hover:shadow-[0_1000px_0_0_hsl(0_0%_100%_/_2%)_inset]"
             >
               <div

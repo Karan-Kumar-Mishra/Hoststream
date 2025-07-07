@@ -32,6 +32,7 @@ server.use('/setup_folder', Routers.setup_folder);
 server.use('/get_vms', Routers.get_vms);
 server.use('/create_order', Routers.createorder);
 server.use('/verify_payment', Routers.verify_payment);
+server.use('/checkprime', Routers.checkprime);
 
 const port = process.env.PORT || 88;
 server.listen(port, () => {

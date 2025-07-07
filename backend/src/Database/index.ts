@@ -7,7 +7,9 @@ import delete_site_db from "./delete_site_db.js";
 import get_location from "./get_site_folder_location.js";
 import find_site from "./find_site.js";
 import get_vms from "./get_vms.js";
-
+import check_prime from "./check_prime.js";
+import mark_prime from "./mark_prime.js";
+import remove_prime from "./remove_prime.js";
 export default{
     connectdb,
     create_user,
@@ -17,5 +19,8 @@ export default{
     delete_site_db,
     get_location,
     find_site,
-    get_vms
+    get_vms,
+    check_prime,
+    mark_prime,
+    remove_prime
 }

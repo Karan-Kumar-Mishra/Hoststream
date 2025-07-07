@@ -7,6 +7,7 @@ import setup_folder from "./setup_folder.js"
 import get_vms from "./get_vms.js"
 import createorder from "./createorder.js"
 import verify_payment from "./verify_payment.js"
+import checkprime from "./checkprime.js"
 export default {
     create_site,
     create_user,
@@ -16,6 +17,7 @@ export default {
     setup_folder,
     get_vms,
     createorder,
-    verify_payment
+    verify_payment,
+    checkprime
   
 }

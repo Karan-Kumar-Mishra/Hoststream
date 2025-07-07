@@ -6,6 +6,7 @@ interface model_type extends Document {
     id: string,
     email: string,
     username: string,
+    is_prime:boolean,
     services: {
         static_site: [],
         vms:[]
