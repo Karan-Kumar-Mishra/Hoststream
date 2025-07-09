@@ -167,7 +167,7 @@ function DashboardLayoutSlots(props) {
     async function checkPrimeStatus() {
 
       try {
-
+      
         let option = {
           method: "POST",
           headers: {
@@ -191,8 +191,10 @@ function DashboardLayoutSlots(props) {
         console.error("Error  checking", error);
       }
     }
-
-    checkPrimeStatus();
+    if(isLoaded && isSignedIn && user)
+    {
+      checkPrimeStatus();
+    }
   }, [isLoaded, isSignedIn, user, navigate]); // Dependencies: user-related props
 
   React.useEffect(() => {

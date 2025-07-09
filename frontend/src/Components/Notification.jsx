@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const Notification = ({ 
   title = "Alert", 
-  message = "This is an important message!", 
+  message = "Some thing went worng try again !", 
   confirmText = "OK", 
   onConfirm 
 }) => {

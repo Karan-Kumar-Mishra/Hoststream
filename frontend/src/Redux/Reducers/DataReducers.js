@@ -13,8 +13,8 @@ const initialState = {
       email: "default email"
     },
     services: {
-      static_site: [{ website_name: "test" }],
-      vms: [{ website_name: "test vm" }]
+      static_site: [],
+      vms: []
     },
     other_info: {
       crsrpgif: { // current servicepage information

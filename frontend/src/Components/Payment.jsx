@@ -3,12 +3,15 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useUser, RedirectToSignIn } from "@clerk/clerk-react";
+import Notification from "./Notification.jsx";
+
 export default function Payment() {
   const [amount, setAmount] = useState(29000);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const store_data = useSelector((state) => state.Data);
   const { isLoaded, isSignedIn, user } = useUser();
+  const dispatch = useDispatch();
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
@@ -64,6 +67,13 @@ export default function Payment() {
               navigate('/dashboard');
             } else {
               alert('Payment verification failed: ' + verifyResponse.data.message);
+              dispatch({
+                type: 'SET_ERROR',
+                payload: {
+                  msg: "Payment verification failed "+verifyResponse.data.message,
+                  show: true
+                }
+              })
             }
           } catch (error) {
             alert('Error verifying payment: ' + error.message);
@@ -76,7 +86,7 @@ export default function Payment() {
           contact: '9999999999',
         },
         theme: {
-          color: '#0200ff',
+          color: '#000000',
         },
       };
 

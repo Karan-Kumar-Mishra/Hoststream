@@ -4,7 +4,8 @@ import razorpayInstance from "../Data/PaymentInstance";
 
 export default create_order.post('/', (req, res) => {
     try {
-        const { amount, currency } = req.body;
+        const { currency } = req.body;
+        const amount=2900
         if (!amount || !currency) {
             res.status(400).json({ success: false, message: 'Invalid request parameters' });
         }

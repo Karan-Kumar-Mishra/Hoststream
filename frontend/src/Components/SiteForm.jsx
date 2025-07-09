@@ -142,7 +142,7 @@ export default function SiteForm() {
                 onChange={(e) => setDomainName(e.target.value)}
                 className="myinput-link"
               />
-              <span class="link-icon">
+              <span className="link-icon">
                 🔗
                 <span className="tooltip">COPY</span>
               </span>
