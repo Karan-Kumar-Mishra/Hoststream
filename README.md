@@ -15,9 +15,10 @@
 <h1>Video</h1>
 <br>
 <video width="640" height="360" controls autoplay  poster="./frontend/src/assets/hoststream.ico">
-  <source src="C:\Users\91888\Videos\Hoststream_demo.mp4" type="video/mp4">
+  <source src="https://dms.licdn.com/playlist/vid/v2/D5605AQHeuhsbmxbnAQ/mp4-640p-30fp-crf28/B56ZfoBzTJGQB0-/0/1751944819523?e=2147483647&v=beta&t=ouDdju0FTcX8bwYMcgMkyk022mTUDcl0C5PxEwIt4O0" type="video/mp4">
 
 </video>
+<a href="https://www.linkedin.com/posts/karan-mishra-892970247_linkedin-webdevelopment-microservices-activity-7348189202607456256-Ybic?utm_source=share&utm_medium=member_android&rcm=ACoAAD0wV-4BEpn8pUjq9KIZVz7Q-9jy9Zwbz-8">click to see video </a>
 <h1>installation</h1>
 <br>
 <h3>Linux</h3>
